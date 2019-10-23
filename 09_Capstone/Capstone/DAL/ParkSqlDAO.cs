@@ -17,7 +17,15 @@ namespace Capstone.DAL
 
         public Park GetParkById(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @parkid", connection);
+                cmd.Parameters.AddWithValue("@parkid", id);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                return ObjectToPark(reader);
+            }
         }
 
         public List<Park> GetParks()

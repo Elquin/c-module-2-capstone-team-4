@@ -24,6 +24,8 @@ namespace Capstone
 
             IParkDAO dao = new ParkSqlDAO(connectionString);
 
+            Console.WriteLine($"{dao.GetParkById(3).Name}");
+
             // TODO Remove all this
             List<Park> parks = dao.GetParks();
 
