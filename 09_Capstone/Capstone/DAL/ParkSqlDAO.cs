@@ -17,31 +17,53 @@ namespace Capstone.DAL
 
         public Park GetParkById(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @parkid", connection);
-                cmd.Parameters.AddWithValue("@parkid", id);
-                SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
-                return ObjectToPark(reader);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @parkid", connection);
+                    cmd.Parameters.AddWithValue("@parkid", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    return ObjectToPark(reader);
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public List<Park> GetParks()
         {
-            List<Park> parks = new List<Park>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM park", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                List<Park> parks = new List<Park>();
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    parks.Add(ObjectToPark(reader));
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM park", connection);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        parks.Add(ObjectToPark(reader));
+                    }
                 }
+                return parks;
             }
-            return parks;
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private Park ObjectToPark(SqlDataReader reader)
