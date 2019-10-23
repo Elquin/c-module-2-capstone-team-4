@@ -13,6 +13,16 @@ namespace Capstone.Models
         public int OpenToMonth{ get; private set; }
         public decimal DailyFee{ get; private set; }
 
+        public Campground(int id, int parkId, string name, int openFromMonth, int openToMonth, decimal dailyFee)
+        {
+            Id = id;
+            ParkId = parkId;
+            Name = name;
+            OpenFromMonth = openFromMonth;
+            OpenToMonth = openToMonth;
+            DailyFee = dailyFee;
+        }
+
         public List<Reservation> SearchAvailableReservations(DateTime arrivalDate, DateTime departureDate)
         {
             List<Reservation> reservations = new List<Reservation>();

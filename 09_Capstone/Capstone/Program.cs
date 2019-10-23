@@ -22,16 +22,25 @@ namespace Capstone
 
 
 
-            IParkDAO dao = new ParkSqlDAO(connectionString);
+            IParkDAO parkDao = new ParkSqlDAO(connectionString);
+            ICampgroundDAO campgroundDao = new CampgroundSqlDAO(connectionString);
 
-            Console.WriteLine($"{dao.GetParkById(3).Name}");
+            Park park = parkDao.GetParkById(1);
+
+            Console.WriteLine($"{park.Name}");
+
+            List<Campground> campgrounds = campgroundDao.GetCampgroundsInPark(park);
+            foreach (Campground cg in campgrounds)
+            {
+                Console.WriteLine(cg.Name);
+            }
 
             // TODO Remove all this
-            List<Park> parks = dao.GetParks();
+            List<Park> parks = parkDao.GetParks();
 
-            foreach (Park park in parks)
+            foreach (Park park22 in parks)
             {
-                Console.WriteLine(park.Name);
+                Console.WriteLine(park22.Name);
             }
 
             Console.ReadKey();
