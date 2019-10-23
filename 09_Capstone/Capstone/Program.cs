@@ -29,6 +29,8 @@ namespace Capstone
 
             Console.WriteLine($"{park.Name}");
 
+            Console.WriteLine($"Test{campgroundDao.GetCampgroundById(6).Name}");
+
             List<Campground> campgrounds = campgroundDao.GetCampgroundsInPark(park);
             foreach (Campground cg in campgrounds)
             {

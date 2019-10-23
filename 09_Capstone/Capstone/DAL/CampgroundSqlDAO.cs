@@ -23,8 +23,15 @@ namespace Capstone.DAL
 
         public Campground GetCampgroundById(int id)
         {
-            // TODO
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE campground_id = @campgroundId", connection);
+                cmd.Parameters.AddWithValue("@campgroundId", id);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                return ObjectToCampground(reader);
+            }
         }
 
         public List<Campground> GetCampgroundsInPark(Park park)
