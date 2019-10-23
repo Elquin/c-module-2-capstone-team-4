@@ -12,5 +12,14 @@ namespace Capstone.Models
         public int OpenFromMonth{ get; private set; }
         public int OpenToMonth{ get; private set; }
         public decimal DailyFee{ get; private set; }
+
+        public List<Reservation> SearchAvailableReservations(DateTime arrivalDate, DateTime departureDate)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+
+            // TODO Query DB for available reservations
+
+            return reservations;
+        }
     }
 }

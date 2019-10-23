@@ -13,5 +13,15 @@ namespace Capstone.Models
         public bool Accessible { get; private set; }
         public int MaxRVLength { get; private set; }
         public bool Utilities { get; private set; }
+
+
+        public Reservation CreateReservation(DateTime fromDate, DateTime toDate, string name)
+        {
+            Reservation reservation = new Reservation();
+
+            // TODO Create reservation
+
+            return reservation;
+        }
     }
 }

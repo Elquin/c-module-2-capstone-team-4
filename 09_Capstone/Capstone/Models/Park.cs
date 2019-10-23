@@ -14,6 +14,22 @@ namespace Capstone.Models
         public int Visitors{ get; private set; }
         public string Description{ get; private set; }
 
+        public List<Campground> GetCampgrounds()
+        {
+            List<Campground> campgrounds = new List<Campground> { };
 
+            // TODO Query DB for campgrounds here
+
+            return campgrounds;
+        }
+
+        public List<Reservation> SearchAvailableReservations(DateTime arrivalDate, DateTime departureDate)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+
+            // TODO Query DB for available reservations
+
+            return reservations;
+        }
     }
 }
