@@ -7,7 +7,7 @@ namespace Capstone.DAL
 {
     interface ISiteDAO
     {
-        List<Site> GetSites();
+        List<Site> GetSitesInCampground(Campground campground);
 
         Site GetSiteById(int id);
     }

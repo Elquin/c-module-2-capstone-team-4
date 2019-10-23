@@ -6,13 +6,24 @@ namespace Capstone.Models
 {
     public class Park
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Location{ get; private set; }
-        public DateTime EstablishDate{ get; private set; }
-        public int Area{ get; private set; }
-        public int Visitors{ get; private set; }
-        public string Description{ get; private set; }
+        public int Id { get; }
+        public string Name { get; }
+        public string Location{ get; }
+        public DateTime EstablishDate{ get; }
+        public int Area{ get; }
+        public int Visitors{ get; }
+        public string Description{ get; }
+
+        public Park(int id, string name, string location, DateTime establishDate, int area, int visitors, string description)
+        {
+            Id = id;
+            Name = name;
+            Location = location;
+            EstablishDate = establishDate;
+            Area = area;
+            Visitors = visitors;
+            Description = description;
+        }
 
         public List<Campground> GetCampgrounds()
         {

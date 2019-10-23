@@ -7,8 +7,15 @@ namespace Capstone.DAL
 {
     interface IReservationDAO
     {
-        List<Reservation> GetReservations();
+        List<Reservation> GetReservationsAtSite(Site site);
 
         Reservation GetReservationById(int id);
+
+        /// <summary>
+        /// Adds a new reservation to the DB
+        /// </summary>
+        /// <param name="reservation">The reservation (minus Id) to be inserted into the DB</param>
+        /// <returns>The id of the reservation</returns>
+        int CreateReservation(Reservation reservation);
     }
 }

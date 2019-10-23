@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Capstone.DAL;
+using Capstone.Models;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Capstone
@@ -16,6 +19,20 @@ namespace Capstone
             IConfigurationRoot configuration = builder.Build();
 
             string connectionString = configuration.GetConnectionString("Project");
+
+
+
+            IParkDAO dao = new ParkSqlDAO(connectionString);
+
+            // TODO Remove all this
+            List<Park> parks = dao.GetParks();
+
+            foreach (Park park in parks)
+            {
+                Console.WriteLine(park.Name);
+            }
+
+            Console.ReadKey();
         }
     }
 }
