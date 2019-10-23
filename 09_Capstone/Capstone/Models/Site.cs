@@ -6,12 +6,12 @@ namespace Capstone.Models
 {
     public class Site
     {
-        private int Id;
-        private int CampgroundId;
-        private int SiteNumber;
-        private int MaxOccupancy;
-        private bool Accessible;
-        private int MaxRVLength;
-        private bool Utilities;
+        public int Id { get; private set; }
+        public int CampgroundId { get; private set; }
+        public int SiteNumber { get; private set; }
+        public int MaxOccupancy { get; private set; }
+        public bool Accessible { get; private set; }
+        public int MaxRVLength { get; private set; }
+        public bool Utilities { get; private set; }
     }
 }

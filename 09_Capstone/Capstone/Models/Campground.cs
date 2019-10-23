@@ -6,11 +6,11 @@ namespace Capstone.Models
 {
     public class Campground
     {
-        private int Id;
-        private int ParkId;
-        private string Name;
-        private int OpenFromMonth;
-        private int OpenToMonth;
-        private decimal DailyFee;
+        public int Id { get; private set; }
+        public int ParkId{ get; private set; }
+        public string Name { get; private set; }
+        public int OpenFromMonth{ get; private set; }
+        public int OpenToMonth{ get; private set; }
+        public decimal DailyFee{ get; private set; }
     }
 }
