@@ -23,32 +23,54 @@ namespace Capstone.DAL
 
         public Campground GetCampgroundById(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE campground_id = @campgroundId", connection);
-                cmd.Parameters.AddWithValue("@campgroundId", id);
-                SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
-                return ObjectToCampground(reader);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE campground_id = @campgroundId", connection);
+                    cmd.Parameters.AddWithValue("@campgroundId", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    return ObjectToCampground(reader);
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public List<Campground> GetCampgroundsInPark(Park park)
         {
-            List<Campground> campgrounds = new List<Campground>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE park_id = @parkId", connection);
-                cmd.Parameters.AddWithValue("@parkId", park.Id);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                List<Campground> campgrounds = new List<Campground>();
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    campgrounds.Add(ObjectToCampground(reader));
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE park_id = @parkId", connection);
+                    cmd.Parameters.AddWithValue("@parkId", park.Id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        campgrounds.Add(ObjectToCampground(reader));
+                    }
                 }
+                return campgrounds;
             }
-            return campgrounds;
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private Campground ObjectToCampground(SqlDataReader reader)
