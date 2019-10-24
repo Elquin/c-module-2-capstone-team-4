@@ -25,7 +25,7 @@ namespace Capstone.DAL
                     connection.Open();
                     SqlCommand cmd = new SqlCommand(@"INSERT INTO reservation (site_id, name, from_date, to_date, create_date)
                                                     VALUES(@siteid, @name, @from_date, @to_date, @create_date)
-                                                    SELECT @@IDENTITY");
+                                                    SELECT @@IDENTITY", connection);
                     cmd.Parameters.AddWithValue("@siteid", reservation.SiteId);
                     cmd.Parameters.AddWithValue("@name", reservation.Name);
                     cmd.Parameters.AddWithValue("@from_date", reservation.FromDate);

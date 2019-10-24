@@ -21,7 +21,7 @@ namespace Capstone.DAL
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteDd", connection);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteId", connection);
                     cmd.Parameters.AddWithValue("@siteId", id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     // TODO What if no rows are found?
