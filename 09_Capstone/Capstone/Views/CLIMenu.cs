@@ -73,6 +73,7 @@ namespace Capstone.Views
         /// </summary>
         protected void DrawMenuOptions()
         {
+            Console.WriteLine();
             foreach (KeyValuePair<string, string> menuItem in menuOptions)
             {
                 Console.WriteLine($"{menuItem.Key}) {menuItem.Value}");

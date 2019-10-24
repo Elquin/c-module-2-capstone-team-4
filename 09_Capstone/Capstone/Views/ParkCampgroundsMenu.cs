@@ -38,11 +38,10 @@ namespace Capstone.Views
         {
             while (true)
             {
-                Console.Clear();
-
                 switch (choice.ToLower())
                 {
                     case Command_Return:
+                        Console.Clear();
                         return false;
 
                     case Command_SearchForReservation:
@@ -62,6 +61,7 @@ namespace Capstone.Views
             string choice = Console.ReadLine();
             if (choice == "0")
             {
+                Console.Clear();
                 return;
             }
 
@@ -104,6 +104,7 @@ namespace Capstone.Views
                 choice = Console.ReadLine();
                 if (choice == "0")
                 {
+                    Console.Clear();
                     return;
                 }
 
@@ -120,6 +121,7 @@ namespace Capstone.Views
                 Console.WriteLine($"The reservation has been made and the confirmation id is {reservation.Id}");
 
                 Console.ReadKey();
+                Console.Clear();
             }
             else
             {
