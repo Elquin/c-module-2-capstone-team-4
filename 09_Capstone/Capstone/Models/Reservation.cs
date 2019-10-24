@@ -13,13 +13,19 @@ namespace Capstone.Models
         public DateTime ToDate { get; private set; }
         public DateTime CreateDate { get; private set; }
 
+        public Reservation (int id, int siteId, string name, DateTime fromDate, DateTime toDate, DateTime createDate)
+        {
+            Id = id;
+            SiteId = siteId;
+            Name = name;
+            FromDate = fromDate;
+            ToDate = toDate;
+            CreateDate = createDate;
+        }
+
         public Reservation CreateReservation(DateTime fromDate, DateTime toDate, string name)
         {
-            Reservation reservation = new Reservation();
-
-            // TODO Create reservation
-
-            return reservation;
+            //// TODO Create reservation
         }
     }
 }
