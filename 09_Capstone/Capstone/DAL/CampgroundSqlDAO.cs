@@ -15,10 +15,40 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
-        public List<Site> GetAvailableReservations(Campground campground)
+        public List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate)
         {
-            // TODO
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(@"SELECT * FROM site
+                                                    WHERE campground_id = @campgroundId
+                                                    AND site_id NOT IN(SELECT DISTINCT site_id FROM reservation
+                                                    WHERE(@fromDate BETWEEN from_date AND to_date
+                                                    OR @toDate BETWEEN from_date AND to_date)
+                                                    )", 
+                                                    connection);
+                    cmd.Parameters.AddWithValue("@campgroundId", campground.Id);
+                    cmd.Parameters.AddWithValue("@fromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@toDate", toDate);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<Site> sites = new List<Site>();
+                    while (reader.Read())
+                    {
+                        sites.Add(SqlToSite(reader));
+                    }
+                    return sites;
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Campground GetCampgroundById(int id)
@@ -83,6 +113,19 @@ namespace Capstone.DAL
                 Convert.ToInt32(reader["open_from_mm"]),
                 Convert.ToInt32(reader["open_to_mm"]),
                 Convert.ToDecimal(reader["daily_fee"])
+                );
+        }
+
+        public Site SqlToSite(SqlDataReader reader)
+        {
+            return new Site(
+                Convert.ToInt32(reader["site_id"]),
+                Convert.ToInt32(reader["campground_id"]),
+                Convert.ToInt32(reader["site_number"]),
+                Convert.ToInt32(reader["max_occupancy"]),
+                Convert.ToBoolean(reader["accessible"]),
+                Convert.ToInt32(reader["max_rv_length"]),
+                Convert.ToBoolean(reader["utilities"])
                 );
         }
     }

@@ -11,6 +11,6 @@ namespace Capstone.DAL
 
         Campground GetCampgroundById(int id);
 
-        List<Site> GetAvailableReservations(Campground campground);
+        List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate);
     }
 }
