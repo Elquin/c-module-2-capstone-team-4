@@ -19,17 +19,16 @@ namespace Capstone.Views
             }
 
             menuOptions.Add(Command_Quit, "Quit");
+            Title = "Main Menu";
         }
         
         protected override bool ExecuteSelection(string choice)
         {
             while (true)
             {
-                string command = Console.ReadLine();
-
                 Console.Clear();
 
-                switch (command.ToLower())
+                switch (choice.ToLower())
                 {
                     case Command_Quit:
                         //Console.WriteLine("");
@@ -37,9 +36,12 @@ namespace Capstone.Views
 
                     default:
                         // Check whether the option entered was a park ID
-                        if (menuOptions.ContainsKey(command))
+                        if (menuOptions.ContainsKey(choice))
                         {
                             // TODO Go to the park menu
+                            // TODO Try catch
+                            ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, parkDAO.GetParkById(int.Parse(choice)));
+                            parkMenu.Run();
                         }
                         else
                         {
