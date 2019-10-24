@@ -49,7 +49,31 @@ namespace Capstone.DAL
 
         public List<Reservation> GetReservationsAtSite(Site site)
         {
-            throw new NotImplementedException();  //TODO Get Reservations at Site
+            try
+            {
+                List<Reservation> reservations = new List<Reservation>();
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * From reservation WHERE site_id = @siteid", connection);
+                    cmd.Parameters.AddWithValue("@siteid", site.Id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    while (reader.Read())
+                    {
+                        reservations.Add(ObjectToReservation(reader));
+                    }
+                    return reservations;
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private Reservation ObjectToReservation(SqlDataReader reader)
