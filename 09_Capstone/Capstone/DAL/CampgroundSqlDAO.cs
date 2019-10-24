@@ -22,7 +22,7 @@ namespace Capstone.DAL
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand(@"SELECT * FROM site
+                    SqlCommand cmd = new SqlCommand(@"SELECT TOP 5 * FROM site
                                                     WHERE campground_id = @campgroundId
                                                     AND site_id NOT IN (SELECT DISTINCT site_id FROM reservation
 	                                                    WHERE (@fromDate BETWEEN from_date AND to_date
