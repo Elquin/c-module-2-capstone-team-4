@@ -78,6 +78,7 @@ namespace Capstone.DAL
 
         private Reservation ObjectToReservation(SqlDataReader reader)
         {
+            // TODO check for nulls in create_date
             return new Reservation(
                 Convert.ToInt32(reader["reservation_id"]),
                 Convert.ToInt32(reader["site_id"]),
