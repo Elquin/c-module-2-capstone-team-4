@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Capstone.DAL;
 using Capstone.Models;
@@ -19,7 +20,7 @@ namespace Capstone.Views
             }
 
             menuOptions.Add(Command_Quit, "Quit");
-            Title = "Main Menu";
+            Title = $"Main Menu";
         }
         
         protected override bool ExecuteSelection(string choice)
@@ -38,10 +39,10 @@ namespace Capstone.Views
                         // Check whether the option entered was a park ID
                         if (menuOptions.ContainsKey(choice))
                         {
-                            // TODO Go to the park menu
                             // TODO Try catch
                             ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, parkDAO.GetParkById(int.Parse(choice)));
                             parkMenu.Run();
+                            return true;
                         }
                         else
                         {

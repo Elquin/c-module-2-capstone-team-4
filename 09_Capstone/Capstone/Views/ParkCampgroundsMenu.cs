@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.Serialization;
 using System.Text;
 using Capstone.DAL;
 using Capstone.Models;
 
 namespace Capstone.Views
 {
-    public class ParkMenu : CLIMenu
+    public class ParkCampgroundsMenu : CLIMenu
     {
         private readonly Park park;
 
-        const string Command_ViewCampgrounds = "1";
-        const string Command_SearchForReservation = "2";
-        const string Command_Return = "3";
+        const string Command_SearchForReservation = "1";
+        const string Command_Return = "2";
 
-        public ParkMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
+        public ParkCampgroundsMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
         {
             this.park = park;
-            Title = $@"Park Information Screen
+            List<Campground> campgrounds = campgroundDAO.GetCampgroundsInPark(park);
+            string campgroundTable = "";
+            foreach (Campground cg in campgrounds)
+            {
+                campgroundTable += $"\n#{cg.Id,-4}{cg.Name,-21}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenFromMonth),-12}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenToMonth),-12}{cg.DailyFee:C}";
+            }
+            Title = $@"Park Campgrounds
 {park.Name}
-Location: {park.Location}
-Established: {park.EstablishDate}
-Area: {park.Area}
-Annual Visitors: {park.Visitors:N0}
 
-{park.Description}";
+     Name                 Open        Close       Daily Fee{campgroundTable}";
 
-            menuOptions.Add(Command_ViewCampgrounds, "View Campgrounds");
             // TODO Implement this bonus thing
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
             menuOptions.Add(Command_Return, "Return to Previous Screen");
@@ -46,11 +48,6 @@ Annual Visitors: {park.Visitors:N0}
                     case Command_SearchForReservation:
                         // TODO Implement this
                         return false;
-                    case Command_ViewCampgrounds:
-                        // TODO Try catch
-                        ParkCampgroundsMenu parkCampgroundsMenu = new ParkCampgroundsMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, parkDAO.GetParkById(int.Parse(choice)));
-                        parkCampgroundsMenu.Run();
-                        return true;
                     default:
                         Console.WriteLine("The command provided was not a valid command, please try again.");
                         break;
