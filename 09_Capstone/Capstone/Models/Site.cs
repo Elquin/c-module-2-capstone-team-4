@@ -6,18 +6,20 @@ namespace Capstone.Models
 {
     public class Site
     {
-        public int Id { get; private set; }
-        public int CampgroundId { get; private set; }
-        public int SiteNumber { get; private set; }
-        public int MaxOccupancy { get; private set; }
-        public bool Accessible { get; private set; }
-        public int MaxRVLength { get; private set; }
-        public bool Utilities { get; private set; }
+        public int Id { get; }
+        public int CampgroundId { get; }
+        public int SiteNumber { get; }
+        public int MaxOccupancy { get; }
+        public bool Accessible { get; }
+        public int MaxRVLength { get; }
+        public bool Utilities { get; }
 
 
         public Reservation CreateReservation(DateTime fromDate, DateTime toDate, string name)
         {
-            Reservation reservation = new Reservation();
+            
+
+            Reservation reservation = new Reservation(Id, name, fromDate, toDate, DateTime.Now);
 
             // TODO Create reservation
 
