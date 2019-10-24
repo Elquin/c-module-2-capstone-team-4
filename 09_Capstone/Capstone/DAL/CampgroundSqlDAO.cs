@@ -24,10 +24,12 @@ namespace Capstone.DAL
                     connection.Open();
                     SqlCommand cmd = new SqlCommand(@"SELECT * FROM site
                                                     WHERE campground_id = @campgroundId
-                                                    AND site_id NOT IN(SELECT DISTINCT site_id FROM reservation
-                                                    WHERE(@fromDate BETWEEN from_date AND to_date
-                                                    OR @toDate BETWEEN from_date AND to_date)
-                                                    )", 
+                                                    AND site_id NOT IN (SELECT DISTINCT site_id FROM reservation
+	                                                    WHERE (@fromDate BETWEEN from_date AND to_date
+	                                                    OR @toDate BETWEEN from_date AND to_date
+	                                                    OR from_date BETWEEN @fromDate AND @toDate
+	                                                    OR to_date BETWEEN @fromDate AND @toDate)
+	                                                    )", 
                                                     connection);
                     cmd.Parameters.AddWithValue("@campgroundId", campground.Id);
                     cmd.Parameters.AddWithValue("@fromDate", fromDate);
