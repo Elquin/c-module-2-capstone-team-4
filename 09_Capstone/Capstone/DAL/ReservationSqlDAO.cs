@@ -18,7 +18,32 @@ namespace Capstone.DAL
 
         public int CreateReservation(Reservation reservation)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(@"INSERT INTO reservation (site_id, name, from_date, to_date, create_date)
+                                                    VALUES(@siteid, @name, @from_date, @to_date, @create_date)
+                                                    SELECT @@IDENTITY");
+                    cmd.Parameters.AddWithValue("@siteid", reservation.SiteId);
+                    cmd.Parameters.AddWithValue("@name", reservation.Name);
+                    cmd.Parameters.AddWithValue("@from_date", reservation.FromDate);
+                    cmd.Parameters.AddWithValue("@to_date", reservation.ToDate);
+                    cmd.Parameters.AddWithValue("@create_date", reservation.CreateDate);
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+
         }
 
 
