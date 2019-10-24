@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    interface IReservationDAO
+    public interface IReservationDAO
     {
         List<Reservation> GetReservationsAtSite(Site site);
 

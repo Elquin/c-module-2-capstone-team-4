@@ -1,5 +1,6 @@
 ﻿using Capstone.DAL;
 using Capstone.Models;
+using Capstone.Views;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,32 +21,13 @@ namespace Capstone
 
             string connectionString = configuration.GetConnectionString("Project");
 
-
-
             IParkDAO parkDao = new ParkSqlDAO(connectionString);
             ICampgroundDAO campgroundDao = new CampgroundSqlDAO(connectionString);
+            ISiteDAO siteDao = new SiteSqlDAO(connectionString);
+            IReservationDAO reservationDao = new ReservationSqlDAO(connectionString);
 
-            Park park = parkDao.GetParkById(1);
-
-            Console.WriteLine($"{park.Name}");
-
-            Console.WriteLine($"Test{campgroundDao.GetCampgroundById(6).Name}");
-
-            List<Campground> campgrounds = campgroundDao.GetCampgroundsInPark(park);
-            foreach (Campground cg in campgrounds)
-            {
-                Console.WriteLine(cg.Name);
-            }
-
-            // TODO Remove all this
-            List<Park> parks = parkDao.GetParks();
-
-            foreach (Park park22 in parks)
-            {
-                Console.WriteLine(park22.Name);
-            }
-
-            Console.ReadKey();
+            CLIMenu menu = new MainMenu(parkDao, campgroundDao, siteDao, reservationDao);
+            menu.Run();
         }
     }
 }

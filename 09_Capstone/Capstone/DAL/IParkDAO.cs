@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    interface IParkDAO
+    public interface IParkDAO
     {
         List<Park> GetParks();
 

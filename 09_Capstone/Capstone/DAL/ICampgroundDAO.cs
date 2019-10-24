@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    interface ICampgroundDAO
+    public interface ICampgroundDAO
     {
         List<Campground> GetCampgroundsInPark(Park park);
 
