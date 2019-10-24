@@ -14,6 +14,13 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
+        public Site GetSiteByCampgroundSiteNumber(Campground campground, int siteNumber)
+        {
+            // TODO implement this and call it from the ParkCampgroundsMenu
+
+            return new Site(0,0,0,0,true,0,true);
+        }
+
         public Site GetSiteById(int id)
         {
             try

@@ -20,8 +20,8 @@ namespace Capstone.Views
             Title = $@"Park Information Screen
 {park.Name}
 Location: {park.Location}
-Established: {park.EstablishDate}
-Area: {park.Area}
+Established: {park.EstablishDate:d}
+Area: {park.Area:N0} sq km
 Annual Visitors: {park.Visitors:N0}
 
 {park.Description}";

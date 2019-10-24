@@ -117,6 +117,7 @@ namespace Capstone.Views
                         return;
                     }
 
+                    // TODO I think this should query by site number, not site ID
                     // TODO Try catch
                     Site site = siteDAO.GetSiteById(int.Parse(choice));
 
