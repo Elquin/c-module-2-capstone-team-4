@@ -21,9 +21,10 @@ namespace Capstone.DAL
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @id", connection);
-                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteDd", connection);
+                    cmd.Parameters.AddWithValue("@siteId", id);
                     SqlDataReader reader = cmd.ExecuteReader();
+                    // TODO What if no rows are found?
                     reader.Read();
                     return SqlToSite(reader);
                 }
