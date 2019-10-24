@@ -25,6 +25,7 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @parkid", connection);
                     cmd.Parameters.AddWithValue("@parkid", id);
                     SqlDataReader reader = cmd.ExecuteReader();
+                    // TODO What if no rows are found?
                     reader.Read();
                     return ObjectToPark(reader);
                 }
