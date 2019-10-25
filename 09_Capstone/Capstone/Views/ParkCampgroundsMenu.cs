@@ -134,11 +134,16 @@ namespace Capstone.Views
                     string reservationName = Console.ReadLine();
                     // TODO Do we check if reservationName is empty?
 
-                    // TODO This should call the method that creates a reservation probably
-                    Reservation reservation = new Reservation(site.Id, reservationName, fromDate, toDate, DateTime.Now);
-                    reservation.Id = reservationDAO.CreateReservation(reservation);
+                    int? reservationId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
 
-                    Console.WriteLine($"The reservation has been made and the confirmation id is {reservation.Id}");
+                    if (reservationId == null)
+                    {
+                        Console.WriteLine("The reservation could not be made.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The reservation has been made and the confirmation id is {reservationId}");
+                    }
 
                     Console.ReadKey();
                     Console.Clear();
