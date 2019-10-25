@@ -17,8 +17,27 @@ namespace Capstone.DAL
         public Site GetSiteByCampgroundSiteNumber(Campground campground, int siteNumber)
         {
             // TODO implement this and call it from the ParkCampgroundsMenu
-
-            return new Site(0,0,0,0,true,0,true);
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE campground_id = @campgroundId AND site_number = @siteNumber", connection);
+                    cmd.Parameters.AddWithValue("@campgroundId", campground.Id);
+                    cmd.Parameters.AddWithValue("@siteNumber", siteNumber);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    return SqlToSite(reader);
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Site GetSiteById(int id)

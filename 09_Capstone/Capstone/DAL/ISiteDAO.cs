@@ -9,6 +9,8 @@ namespace Capstone.DAL
     {
         List<Site> GetSitesInCampground(Campground campground);
 
+        Site GetSiteByCampgroundSiteNumber(Campground campground, int siteNumber);
+
         Site GetSiteById(int id);
     }
 }

@@ -61,7 +61,7 @@ Annual Visitors: {park.Visitors:N0}
                         return false;
                     case Command_ViewCampgrounds:
                         // TODO Try catch
-                        ParkCampgroundsMenu parkCampgroundsMenu = new ParkCampgroundsMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, parkDAO.GetParkById(int.Parse(choice)));
+                        ParkCampgroundsMenu parkCampgroundsMenu = new ParkCampgroundsMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
                         parkCampgroundsMenu.Run();
                         return true;
                     default:
