@@ -38,7 +38,7 @@ namespace Capstone.Views
 
      Name                 Open        Close       Daily Fee{campgroundTable}";
 
-            // TODO Implement this bonus thing
+            // TODO Implement search with extra parameters bonus
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
             menuOptions.Add(Command_Return, "Return to Previous Screen");
         }
@@ -147,8 +147,7 @@ namespace Capstone.Views
                                 return;
                             }
 
-                            int num;
-                            if (int.TryParse(choice, out num))
+                            if (int.TryParse(choice, out int num))
                             {
                                 // Check if in list of site numbers
                                 foreach (Site siteItem in sites)

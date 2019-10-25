@@ -44,14 +44,12 @@ namespace Capstone.Views
                     switch (choice.ToLower())
                     {
                         case Command_Quit:
-                            //Console.WriteLine("");
                             return false;
 
                         default:
                             // Check whether the option entered was a park ID
                             if (menuOptions.ContainsKey(choice))
                             {
-                                // TODO Try catch
                                 Park park = parkDAO.GetParkById(int.Parse(choice));
                                 if (park == null)
                                 {

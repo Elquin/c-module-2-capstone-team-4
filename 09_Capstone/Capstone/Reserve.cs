@@ -28,6 +28,21 @@ namespace Capstone
                     throw new Exception("Date(s) are outside of campground open months.");
                 }
 
+                List<Site> sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate);
+                bool siteIsValid = false;
+                foreach (Site siteItem in sites)
+                {
+                    if (siteItem.Id == site.Id)
+                    {
+                        siteIsValid = true;
+                        break;
+                    }
+                }
+                if (!siteIsValid)
+                {
+                    return null;
+                }
+
                 Reservation reservation = new Reservation(site.Id, reservationName, fromDate, toDate, DateTime.UtcNow);
                 reservation.Id = reservationDAO.CreateReservation(reservation);
                 if (reservation.Id == null)

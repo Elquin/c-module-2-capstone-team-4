@@ -10,9 +10,11 @@ namespace Capstone.Views
     {
         private readonly Park park;
 
+
         const string Command_ViewCampgrounds = "1";
         const string Command_SearchForReservation = "2";
-        const string Command_Return = "3";
+        const string Command_ViewNext30DaysReservations = "3";
+        const string Command_Return = "4";
 
         public ParkMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
         {
@@ -40,8 +42,9 @@ Annual Visitors: {park.Visitors:N0}
 {park.Description}";
 
             menuOptions.Add(Command_ViewCampgrounds, "View Campgrounds");
-            // TODO Implement this bonus thing
+            // TODO Implement search for reservations in a park
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
+            menuOptions.Add(Command_ViewNext30DaysReservations, "View Next 30 Days Reservations");
             menuOptions.Add(Command_Return, "Return to Previous Screen");
         }
 
@@ -57,11 +60,16 @@ Annual Visitors: {park.Visitors:N0}
                         return false;
 
                     case Command_SearchForReservation:
-                        // TODO Implement this
+                        // TODO Implement search for reservations available in a park
                         return false;
                     case Command_ViewCampgrounds:
                         ParkCampgroundsMenu parkCampgroundsMenu = new ParkCampgroundsMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
                         parkCampgroundsMenu.Run();
+                        return true;
+                    case Command_ViewNext30DaysReservations:
+                        // TODO BONUS: As a user of the system, I would like the ability to see a list of all upcoming reservations withinthe next 30 days for a selected national park.
+                        Console.WriteLine("Not implmeneted");
+                        Console.ReadKey();
                         return true;
                     default:
                         Console.WriteLine("The command provided was not a valid command, please try again.");

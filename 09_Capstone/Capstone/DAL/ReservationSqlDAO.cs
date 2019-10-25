@@ -46,6 +46,41 @@ namespace Capstone.DAL
 
         }
 
+        public List<Reservation> GetNext30DaysParkReservations(Park park)
+        {
+            // TODO Implement unit testing for this
+            try
+            {
+                List<Reservation> reservations = new List<Reservation>();
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(@"SELECT r.* FROM reservation r
+                                                    JOIN site s ON s.site_id = r.site_id
+                                                    JOIN campground cg ON cg.campground_id = s.site_id
+                                                    JOIN park p ON p.park_id = cg.park_id
+                                                    WHERE p.park_id = @parkId
+                                                    AND r.from_date <= @dateLimit", connection);
+                    cmd.Parameters.AddWithValue("@parkId", park.Id);
+                    cmd.Parameters.AddWithValue("@dateLimit", DateTime.Now.AddDays(30));
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        reservations.Add(ObjectToReservation(reader));
+                    }
+                }
+                return reservations;
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         //Reservation
         public Reservation GetReservationById(int id)
