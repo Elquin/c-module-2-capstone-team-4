@@ -36,16 +36,12 @@ namespace Capstone.DAL
             }
             catch (SqlException ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.ReadKey();
-                Console.Clear();
+                // TODO Do something with error?
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.ReadKey();
-                Console.Clear();
+                // TODO Do something with error?
                 return null;
             }
         }

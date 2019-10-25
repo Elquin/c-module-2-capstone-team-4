@@ -31,10 +31,12 @@ namespace Capstone.DAL
             }
             catch (SqlException)
             {
+                // TODO Do something with error?
                 throw;
             }
             catch (Exception)
             {
+                // TODO Do something with error?
                 throw;
             }
         }
