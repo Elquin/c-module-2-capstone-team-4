@@ -147,8 +147,7 @@ namespace Capstone.Views
                                 return;
                             }
 
-                            int num;
-                            if (int.TryParse(choice, out num))
+                            if (int.TryParse(choice, out int num))
                             {
                                 // Check if in list of site numbers
                                 foreach (Site siteItem in sites)
