@@ -204,6 +204,30 @@ namespace Capstone.Views
             Console.Write(" Press any key to continue.");
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// This continually prompts the user until they enter a valid date.
+        /// </summary>
+        /// <param name="message">The string to prompt the user with</param>
+        /// <returns>A valid date entered by the user</returns>
+        protected DateTime GetDate(string message)
+        {
+            DateTime resultValue;
+            while (true)
+            {
+                Console.Write(message + " ");
+                string userInput = Console.ReadLine().Trim();
+                if (DateTime.TryParse(userInput, out resultValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("!!! Invalid input. Please enter a valid date.");
+                }
+            }
+            return resultValue;
+        }
         #endregion
     }
 }

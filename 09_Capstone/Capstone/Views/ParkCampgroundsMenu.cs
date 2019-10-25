@@ -104,12 +104,8 @@ namespace Capstone.Views
                     DateTime toDate = DateTime.Now;
                     while (!validDates)
                     {
-                        // TODO Move these to their own GetValidDate methods
-                        Console.WriteLine("What is the arrival date?");
-                        // TODO Try catch or TryParse
-                        fromDate = DateTime.Parse(Console.ReadLine());
-                        Console.WriteLine("What is the departure date?");
-                        toDate = DateTime.Parse(Console.ReadLine());
+                        fromDate = GetDate("What is the arrival date?");
+                        toDate = GetDate("What is the departure date?");
 
                         validDates = toDate >= fromDate;
                         if (!validDates)
@@ -170,12 +166,7 @@ namespace Capstone.Views
                             }
                         }
 
-                        // TODO Try catch
-                        // TODO Deal with null site value
-
                         Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, (int)intChoice);
-
-                        // TODO This needs to be limited to the top 5 sites
 
                         if (site == null)
                         {
