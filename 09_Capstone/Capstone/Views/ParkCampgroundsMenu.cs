@@ -129,9 +129,16 @@ namespace Capstone.Views
                     // TODO Try catch
                     Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, int.Parse(choice));
 
-                    Console.WriteLine("What name should the reservation be made under?");
-                    string reservationName = Console.ReadLine();
-                    // TODO Do we check if reservationName is empty?
+                    string reservationName = "";
+                    while (reservationName == "")
+                    {
+                        Console.WriteLine("What name should the reservation be made under?");
+                        reservationName = Console.ReadLine();
+                        if (reservationName == "")
+                        {
+                            Console.WriteLine("Please enter something for the reservation name.");
+                        }
+                    }
 
                     int? reservationId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
 
