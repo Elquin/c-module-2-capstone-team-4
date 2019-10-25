@@ -24,17 +24,5 @@ namespace Capstone.Models
         public bool Accessible { get; }
         public int MaxRVLength { get; }
         public bool Utilities { get; }
-
-
-        public Reservation CreateReservation(DateTime fromDate, DateTime toDate, string name)
-        {
-            // TODO Make sure reservation time is available
-
-            Reservation reservation = new Reservation(Id, name, fromDate, toDate, DateTime.Now);
-
-            // TODO Create reservation
-
-            return reservation;
-        }
     }
 }

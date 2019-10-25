@@ -25,10 +25,5 @@ namespace Capstone.Models
             OpenToMonth = openToMonth;
             DailyFee = dailyFee;
         }
-
-        public List<Site> SearchAvailableSites(DateTime arrivalDate, DateTime departureDate, CampgroundSqlDAO cgDao)
-        {
-            return cgDao.GetAvailableReservations(this, arrivalDate, departureDate);
-        }
     }
 }
