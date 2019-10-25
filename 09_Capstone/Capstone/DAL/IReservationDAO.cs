@@ -18,5 +18,7 @@ namespace Capstone.DAL
         /// <param name="reservation">The reservation (minus Id) to be inserted into the DB</param>
         /// <returns>The id of the reservation</returns>
         int? CreateReservation(Reservation reservation);
+
+        List<Reservation> GetNext30DaysParkReservations(Park park);
     }
 }
