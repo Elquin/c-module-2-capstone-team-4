@@ -25,7 +25,7 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand(@"SELECT TOP 5 * FROM site
                                                     WHERE campground_id = @campgroundId
                                                     AND site_id NOT IN (SELECT DISTINCT site_id FROM reservation
-	                                                    WHERE from_date <= @toDate AND to_date >= @fromDate
+	                                                    WHERE from_date < @toDate AND to_date > @fromDate
 	                                                    )", 
                                                     connection);
                     cmd.Parameters.AddWithValue("@campgroundId", campground.Id);

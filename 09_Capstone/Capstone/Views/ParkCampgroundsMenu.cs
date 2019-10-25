@@ -11,6 +11,7 @@ namespace Capstone.Views
     public class ParkCampgroundsMenu : CLIMenu
     {
         private readonly Park park;
+        private readonly List<Campground> campgrounds;
 
         const string Command_SearchForReservation = "1";
         const string Command_Return = "2";
@@ -18,11 +19,11 @@ namespace Capstone.Views
         public ParkCampgroundsMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
         {
             this.park = park;
-            List<Campground> campgrounds = campgroundDAO.GetCampgroundsInPark(park);
+            campgrounds = campgroundDAO.GetCampgroundsInPark(park);
             string campgroundTable = "";
             foreach (Campground cg in campgrounds)
             {
-                campgroundTable += $"\n#{cg.Id,-4}{cg.Name,-21}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenFromMonth),-12}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenToMonth),-12}{cg.DailyFee:C}";
+                campgroundTable += $"\n#{cg.Id,-4}{cg.Name,-41}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenFromMonth),-12}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenToMonth),-12}{cg.DailyFee:C}";
             }
             Title = $@"
          ____            _       ____                                                      _     
@@ -36,7 +37,7 @@ namespace Capstone.Views
 
 {park.Name}
 
-     Name                 Open        Close       Daily Fee{campgroundTable}";
+     Name                                     Open        Close       Daily Fee{campgroundTable}";
 
             // TODO Implement search with extra parameters bonus
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
@@ -80,7 +81,17 @@ namespace Capstone.Views
                         return;
                     }
 
-                    if (!menuOptions.ContainsKey(choice))
+                    bool campgroundExists = false;
+                    foreach (Campground cg in campgrounds)
+                    {
+                        if (cg.Id == int.Parse(choice))
+                        {
+                            campgroundExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!campgroundExists)
                     {
                         Pause("Invalid campground. Please try again.");
                         continue;
@@ -126,6 +137,7 @@ namespace Capstone.Views
 
                     if (sites.Count > 0)
                     {
+                        // TODO Method for writing the column lengths padded to maximum data width
                         Console.WriteLine("Results Matching Your Search Criteria");
                         Console.WriteLine("Site No.   Max Occup.  Accessible?  Max RV Length   Utility   Cost");
                         foreach (Site currentSite in sites)
