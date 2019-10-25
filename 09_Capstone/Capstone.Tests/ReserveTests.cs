@@ -49,8 +49,8 @@ namespace Capstone.Tests
             int? campgroundId = null;
             Site site;
             string reservationName = "TestReservation";
-            DateTime fromDate = new DateTime(2019, 10, 20);
-            DateTime toDate = new DateTime(2019, 10, 24);
+            DateTime expectedFromDate = new DateTime(2019, 10, 20);
+            DateTime expectedToDate = new DateTime(2019, 10, 24);
             int? expectedId = null;
             ICampgroundDAO campgroundDAO = new CampgroundSqlDAO(connectionString);
             IReservationDAO reservationDAO = new ReservationSqlDAO(connectionString);
@@ -84,14 +84,38 @@ namespace Capstone.Tests
 
             // Valid reservation
             // Act
-            int? actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
+            int? actualId = Reserve.MakeReservation(site, reservationName, expectedFromDate, expectedToDate, campgroundDAO, reservationDAO);
 
             // Assert
             Assert.AreEqual(expectedId, actualId);
 
+            // Query database for reservation created
+            int actualSiteId;
+            string actualName;
+            DateTime actualFromDate;
+            DateTime actualToDate;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE reservation_id = @reservationId", connection);
+                cmd.Parameters.AddWithValue("@reservationId", actualId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                actualSiteId = Convert.ToInt32(reader["site_id"]);
+                actualName = Convert.ToString(reader["name"]);
+                actualFromDate = Convert.ToDateTime(reader["from_date"]);
+                actualToDate = Convert.ToDateTime(reader["to_date"]);
+            }
+
+            Assert.AreEqual(site.Id, actualSiteId);
+            Assert.AreEqual(reservationName, actualName);
+            Assert.AreEqual(expectedFromDate, actualFromDate);
+            Assert.AreEqual(expectedToDate, actualToDate);
+
             // Reservation dates overlap
             // Act
-            actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
+            actualId = Reserve.MakeReservation(site, reservationName, expectedFromDate, expectedToDate, campgroundDAO, reservationDAO);
 
             // Assert
             Assert.IsNull(actualId);
@@ -99,11 +123,11 @@ namespace Capstone.Tests
 
             // From date is after to date
             // Arrange
-            fromDate = new DateTime(2019, 1, 20);
-            toDate = new DateTime(2019, 1, 15);
+            expectedFromDate = new DateTime(2019, 1, 20);
+            expectedToDate = new DateTime(2019, 1, 15);
 
             // Act
-            actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
+            actualId = Reserve.MakeReservation(site, reservationName, expectedFromDate, expectedToDate, campgroundDAO, reservationDAO);
 
             // Assert
             Assert.IsNull(actualId);
