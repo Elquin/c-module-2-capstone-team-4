@@ -104,6 +104,7 @@ namespace Capstone.Views
                     DateTime toDate = DateTime.Now;
                     while (!validDates)
                     {
+                        // TODO Move these to their own GetValidDate methods
                         Console.WriteLine("What is the arrival date?");
                         // TODO Try catch or TryParse
                         fromDate = DateTime.Parse(Console.ReadLine());
@@ -139,17 +140,48 @@ namespace Capstone.Views
                             Console.WriteLine($"{currentSite.SiteNumber,-11}{currentSite.MaxOccupancy,-12}{accessibleDisplay,-13}{maxRvLengthDisplay,-16}{utilityDisplay,-10}{campground.DailyFee * ((toDate - fromDate).Days + 1):C}");
                         }
 
-                        Console.WriteLine("Which site should be reserved (enter 0 to cancel)");
-                        choice = Console.ReadLine();
-                        if (choice == "0")
+                        int? intChoice = null;
+                        while (intChoice == null)
                         {
-                            Console.Clear();
-                            return;
+                            Console.WriteLine("Which site should be reserved (enter 0 to cancel)");
+                            choice = Console.ReadLine();
+                            if (choice == "0")
+                            {
+                                Console.Clear();
+                                return;
+                            }
+
+                            int num;
+                            if (int.TryParse(choice, out num))
+                            {
+                                // Check if in list of site numbers
+                                foreach (Site siteItem in sites)
+                                {
+                                    if (siteItem.SiteNumber == num)
+                                    {
+                                        intChoice = num;
+                                    }
+                                }
+                            }
+
+                            if (intChoice == null)
+                            {
+                                Console.WriteLine("Invalid site. Please try again.");
+                            }
                         }
 
                         // TODO Try catch
                         // TODO Deal with null site value
-                        Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, int.Parse(choice));
+
+                        Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, (int)intChoice);
+
+                        // TODO This needs to be limited to the top 5 sites
+
+                        if (site == null)
+                        {
+                            Pause("Site not found.");
+                            return;
+                        }
 
                         string reservationName = "";
                         while (reservationName == "")
