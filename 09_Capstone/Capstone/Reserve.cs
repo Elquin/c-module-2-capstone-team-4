@@ -18,6 +18,10 @@ namespace Capstone
                 }
 
                 Campground campground = campgroundDAO.GetCampgroundById(site.CampgroundId);
+                if (campground == null)
+                {
+                    throw new Exception("No campground found.");
+                }
 
                 if (Math.Min(fromDate.Month, toDate.Month) < campground.OpenFromMonth || Math.Max(fromDate.Month, toDate.Month) > campground.OpenToMonth)
                 {

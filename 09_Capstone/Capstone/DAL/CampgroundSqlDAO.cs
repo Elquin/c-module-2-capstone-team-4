@@ -60,7 +60,10 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE campground_id = @campgroundId", connection);
                     cmd.Parameters.AddWithValue("@campgroundId", id);
                     SqlDataReader reader = cmd.ExecuteReader();
-                    // TODO What if no rows are found?
+                    if (!reader.HasRows)
+                    {
+                        throw new Exception("Campground not in database.");
+                    }
                     reader.Read();
                     return ObjectToCampground(reader);
                 }
