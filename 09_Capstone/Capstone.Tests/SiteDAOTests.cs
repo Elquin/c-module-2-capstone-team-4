@@ -84,39 +84,39 @@ namespace Capstone.Tests
 
         }
 
-        //[TestMethod]
-        //public void GetSiteByIdTest()
-        //{
-        //    // Arrange
-        //    string expectedName = "Acadia";
-        //    Site expectedSite;
-        //    SiteSqlDAO dao = new SiteSqlDAO(connectionString);
+        [TestMethod]
+        public void GetSiteByIdTest()
+        {
+            // Arrange
+            int siteId = 1;
+            Site expectedSite;
+            SiteSqlDAO dao = new SiteSqlDAO(connectionString);
 
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteId", conn);
-        //        cmd.Parameters.AddWithValue("@siteId", expectedSite);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteId", conn);
+                cmd.Parameters.AddWithValue("@siteId", siteId);
 
-        //        SqlDataReader sdr = cmd.ExecuteReader();
-        //        sdr.Read();
-        //        expectedPark = new Park(Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToString(sdr["location"]), Convert.ToDateTime(sdr["establish_date"]), Convert.ToInt32(sdr["area"]), Convert.ToInt32(sdr["visitors"]), Convert.ToString(sdr["description"]));
-        //    }
-
-
-        //    // Act
-        //    Park actualPark = dao.GetParkById(expectedPark.Id);
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                expectedSite = new Site(Convert.ToInt32(sdr["site_id"]), Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["site_number"]), Convert.ToInt32(sdr["max_occupancy"]), Convert.ToBoolean(sdr["accessible"]), Convert.ToInt32(sdr["max_rv_length"]), Convert.ToBoolean(sdr["utilities"]));
+            }
 
 
-        //    // Assert 
-        //    Assert.AreEqual(expectedPark.Name, actualPark.Name);
-        //    Assert.AreEqual(expectedPark.Id, actualPark.Id);
+            // Act
+            Site actualSite = dao.GetSiteById(expectedSite.Id);
 
-        //    //Assert2
-        //    actualPark = dao.GetParkById(-1);
-        //    Assert.IsNull(actualPark);
 
-        //}
+            // Assert 
+            Assert.AreEqual(expectedSite.Id, actualSite.Id);
+            Assert.AreEqual(expectedSite.CampgroundId, actualSite.CampgroundId);
+
+            //Assert2
+            actualSite = dao.GetSiteById(-1);
+            Assert.IsNull(actualSite);
+
+        }
 
         //[TestMethod]
         //public void GetSitesInCampgroundTest()
