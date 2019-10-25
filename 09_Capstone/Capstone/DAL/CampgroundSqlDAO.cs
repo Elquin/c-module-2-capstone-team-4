@@ -70,12 +70,10 @@ namespace Capstone.DAL
             }
             catch (SqlException)
             {
-                // TODO Do something with error?
                 return null;
             }
             catch (Exception)
             {
-                // TODO Do something with error?
                 return null;
             }
         }

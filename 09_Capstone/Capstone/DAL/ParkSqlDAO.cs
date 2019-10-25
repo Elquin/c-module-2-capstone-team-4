@@ -25,7 +25,6 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE park_id = @parkid", connection);
                     cmd.Parameters.AddWithValue("@parkid", id);
                     SqlDataReader reader = cmd.ExecuteReader();
-                    // TODO What if no rows are found?
                     if (!reader.HasRows)
                     {
                         throw new Exception("Park not in database.");
@@ -34,14 +33,12 @@ namespace Capstone.DAL
                     return ObjectToPark(reader);
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException)
             {
-                // TODO Do something with error?
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // TODO Do something with error?
                 return null;
             }
         }

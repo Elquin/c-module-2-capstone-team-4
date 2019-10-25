@@ -9,6 +9,7 @@ namespace Capstone.DAL
     {
         List<Reservation> GetReservationsAtSite(Site site);
 
+        // TODO Is this ever used?
         Reservation GetReservationById(int id);
 
         /// <summary>
@@ -16,6 +17,6 @@ namespace Capstone.DAL
         /// </summary>
         /// <param name="reservation">The reservation (minus Id) to be inserted into the DB</param>
         /// <returns>The id of the reservation</returns>
-        int CreateReservation(Reservation reservation);
+        int? CreateReservation(Reservation reservation);
     }
 }

@@ -16,7 +16,7 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
-        public int CreateReservation(Reservation reservation)
+        public int? CreateReservation(Reservation reservation)
         {
             try
             {
@@ -34,15 +34,13 @@ namespace Capstone.DAL
                     return Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException)
             {
-                // TODO Do something with error?
-                throw;
+                return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // TODO Do something with error?
-                throw;
+                return null;
             }
 
 
@@ -66,11 +64,11 @@ namespace Capstone.DAL
             }
             catch (SqlException)
             {
-                throw;
+                return null;
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
         }
 

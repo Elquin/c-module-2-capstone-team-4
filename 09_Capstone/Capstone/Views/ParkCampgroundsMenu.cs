@@ -148,6 +148,7 @@ namespace Capstone.Views
                         }
 
                         // TODO Try catch
+                        // TODO Deal with null site value
                         Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, int.Parse(choice));
 
                         string reservationName = "";

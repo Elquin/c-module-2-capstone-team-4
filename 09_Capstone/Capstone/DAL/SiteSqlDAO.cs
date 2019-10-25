@@ -31,13 +31,11 @@ namespace Capstone.DAL
             }
             catch (SqlException)
             {
-                // TODO Do something with error?
-                throw;
+                return null;
             }
             catch (Exception)
             {
-                // TODO Do something with error?
-                throw;
+                return null;
             }
         }
 
@@ -51,18 +49,17 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE site_id = @siteId", connection);
                     cmd.Parameters.AddWithValue("@siteId", id);
                     SqlDataReader reader = cmd.ExecuteReader();
-                    // TODO What if no rows are found?
                     reader.Read();
                     return SqlToSite(reader);
                 }
             }
             catch (SqlException)
             {
-                throw;
+                return null;
             }
             catch (Exception)
             {
-                throw;
+                return null;
             }
         }
 

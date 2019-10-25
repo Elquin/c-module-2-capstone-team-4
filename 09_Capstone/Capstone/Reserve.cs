@@ -30,13 +30,15 @@ namespace Capstone
 
                 Reservation reservation = new Reservation(site.Id, reservationName, fromDate, toDate, DateTime.UtcNow);
                 reservation.Id = reservationDAO.CreateReservation(reservation);
+                if (reservation.Id == null)
+                {
+                    throw new Exception("Reservation not created.");
+                }
 
                 return reservation.Id;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
-                Console.ReadKey();
                 return null;
             }
         }
