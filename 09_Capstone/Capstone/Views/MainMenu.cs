@@ -19,8 +19,18 @@ namespace Capstone.Views
                 menuOptions.Add(park.Id.ToString(), park.Name);
             }
 
-            menuOptions.Add(Command_Quit, "Quit");
-            Title = $"Main Menu";
+            menuOptions.Add(Command_Quit, "Quit");  //ivrit font 
+            Title = $@"
+                 A
+                d$b
+              .d\$$b.
+            .d$i$$\$$b.       
+            .d$$$\$$$b
+          .d$$@$$$$\$$ib__  __       _         __  __
+          .d$@$$\$$$$$@b. \/  | __ _(_)_ __   |  \/  | ___ _ __  _   _
+        .d$$$$i$$$\$$$$$$b./| |/ _` | | '_ \  | |\/| |/ _ \ '_ \| | | |
+                ###    | |  | | (_| | | | | | | |  | |  __/ | | | |_| |
+                ###    |_|  |_|\__,_|_|_| |_| |_|  |_|\___|_| |_|\__,_|";
         }
         
         protected override bool ExecuteSelection(string choice)

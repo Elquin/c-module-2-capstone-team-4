@@ -24,7 +24,16 @@ namespace Capstone.Views
             {
                 campgroundTable += $"\n#{cg.Id,-4}{cg.Name,-21}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenFromMonth),-12}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenToMonth),-12}{cg.DailyFee:C}";
             }
-            Title = $@"Park Campgrounds
+            Title = $@"
+         ____            _       ____                                                      _     
+        |  _ \ __ _ _ __| | __  / ___|__ _ _ __ ___  _ __   __ _ _ __ ___  _   _ _ __   __| |___ 
+        | |_) / _` | '__| |/ / | |   / _` | '_ ` _ \| '_ \ / _` | '__/ _ \| | | | '_ \ / _` / __|
+        |  __/ (_| | |  |   <  | |__| (_| | | | | | | |_) | (_| | | | (_) | |_| | | | | (_| \__ \
+        |_|   \__,_|_|  |_|\_\  \____\__,_|_| |_| |_| .__/ \__, |_|  \___/ \__,_|_| |_|\__,_|___/
+                                             |_|    |___/                                 
+
+
+
 {park.Name}
 
      Name                 Open        Close       Daily Fee{campgroundTable}";

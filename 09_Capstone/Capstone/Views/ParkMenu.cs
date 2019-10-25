@@ -17,7 +17,20 @@ namespace Capstone.Views
         public ParkMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
         {
             this.park = park;
-            Title = $@"Park Information Screen
+            Title = $@"                                                 
+                                                            `/+o/.
+                                                         `:+/.  .so.
+                                                    .--::/.       .os:`
+                                    :-          `.--.               `:+//+/`                        
+                                 /y/oy/.     `..                         `://`                     
+         ____            _     .___      `.__:```                        _/: _`-.--.             
+        |  _ \ __ _ _ __| | __ |_ _|_ __  / _| ___  _ __ _ __ ___   __ _| |_(_) ___``_ __  
+        | |_) / _` | '__| |/ /  | || '_ \| |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \ 
+        |  __/ (_| | |  |   <   | || | | |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | |
+        |_|   \__,_|_|  |_|\_\ |___|_| |_|_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|
+                .-:.  ```                     ./.  ``                                  `  
+           ``..-`                               .--.....``
+          ``                                              ````                                                                            
 {park.Name}
 Location: {park.Location}
 Established: {park.EstablishDate:d}
