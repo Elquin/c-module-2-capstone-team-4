@@ -50,7 +50,12 @@ namespace Capstone.Views
                         if (menuOptions.ContainsKey(choice))
                         {
                             // TODO Try catch
-                            ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, parkDAO.GetParkById(int.Parse(choice)));
+                            Park park = parkDAO.GetParkById(int.Parse(choice));
+                            if (park == null)
+                            {
+                                throw new Exception("Park not found");
+                            }
+                            ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
                             parkMenu.Run();
                             return true;
                         }

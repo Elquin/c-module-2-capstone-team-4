@@ -34,13 +34,19 @@ namespace Capstone.DAL
                     return ObjectToPark(reader);
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                throw;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadKey();
+                Console.Clear();
+                return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadKey();
+                Console.Clear();
+                return null;
             }
         }
 
