@@ -73,5 +73,83 @@ namespace Capstone.Tests
             // Assert 
             Assert.AreEqual(5, list.Count); //Top 5 limiting results to 5
         }
+
+        [TestMethod]
+        public void GetCampgroundByIdTest()
+        {
+
+            // Arrange
+            string expectedName = "Devil's Garden";
+            Campground expectedCampground;
+            CampgroundSqlDAO dao = new CampgroundSqlDAO(connectionString);
+            
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE name = @name", conn);
+                cmd.Parameters.AddWithValue("@name", expectedName);
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                expectedCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
+            }
+
+
+            // Act
+            Campground actualCampground = dao.GetCampgroundById(expectedCampground.Id);
+
+
+            // Assert 
+            Assert.AreEqual(expectedName, actualCampground.Name);
+            Assert.AreEqual(expectedCampground.DailyFee, actualCampground.DailyFee);
+            Assert.AreEqual(expectedCampground.OpenFromMonth, actualCampground.OpenFromMonth);
+            Assert.AreEqual(expectedCampground.OpenToMonth, actualCampground.OpenToMonth);
+            Assert.AreEqual(expectedCampground.ParkId, actualCampground.ParkId);
+
+
+            //ACT
+            actualCampground = dao.GetCampgroundById(-1);
+            Assert.IsNull(actualCampground);
+        }
+
+
+        [TestMethod]
+        public void GetCampgroundsInParkTest()
+        {
+
+            // Arrange
+            int parkId = 1;
+            List<Campground> campgroundList = new List<Campground>();
+            Campground newCampground;
+            CampgroundSqlDAO dao = new CampgroundSqlDAO(connectionString);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                //Query parks
+                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE park_id = @parkid", conn);
+                cmd.Parameters.AddWithValue("@parkid", parkId);
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    newCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
+                    campgroundList.Add(newCampground);
+                }
+                
+            }
+
+
+            // Act
+            Park newPark = new Park(1, "Acadia Maine", "Maine", new DateTime(1919, 02, 26), 47389, 2563129, "Test");
+            List<Campground> actualCampgroundList = dao.GetCampgroundsInPark(newPark);
+
+
+            // Assert 
+            Assert.AreEqual(campgroundList[0].Name, actualCampgroundList[0].Name);
+            Assert.AreEqual(campgroundList[1].Name, actualCampgroundList[1].Name);
+            Assert.AreEqual(campgroundList[2].Name, actualCampgroundList[2].Name);
+        }
     }
 }
