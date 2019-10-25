@@ -65,13 +65,17 @@ namespace Capstone.DAL
                     return ObjectToCampground(reader);
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                throw;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadKey();
+                return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadKey();
+                return null;
             }
         }
 

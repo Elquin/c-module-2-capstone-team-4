@@ -16,7 +16,6 @@ namespace Capstone.DAL
 
         public Site GetSiteByCampgroundSiteNumber(Campground campground, int siteNumber)
         {
-            // TODO implement this and call it from the ParkCampgroundsMenu
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))

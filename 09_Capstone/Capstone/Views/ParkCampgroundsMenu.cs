@@ -79,8 +79,8 @@ namespace Capstone.Views
             while (true)
             {
                 bool validDates = false;
-                DateTime fromDate = DateTime.Now; // TODO Should this really be DateTime.Now?
-                DateTime toDate = DateTime.Now; // TODO Should this really be DateTime.Now?
+                DateTime fromDate = DateTime.Now;
+                DateTime toDate = DateTime.Now;
                 while (!validDates)
                 {
                     Console.WriteLine("What is the arrival date?");

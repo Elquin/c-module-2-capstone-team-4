@@ -110,8 +110,7 @@ namespace Capstone.DAL
                 Convert.ToString(reader["name"]),
                 Convert.ToDateTime(reader["from_date"]),
                 Convert.ToDateTime(reader["to_date"]),
-                Convert.ToDateTime(reader["create_date"])
-
+                reader["create_date"] is DBNull ? default(DateTime) : Convert.ToDateTime(reader["create_date"])
                 );
         }
     }
