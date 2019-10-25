@@ -42,7 +42,6 @@ Annual Visitors: {park.Visitors:N0}
 {park.Description}";
 
             menuOptions.Add(Command_ViewCampgrounds, "View Campgrounds");
-            // TODO Implement search for reservations in a park
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
             menuOptions.Add(Command_ViewNext30DaysReservations, "View Next 30 Days Reservations");
             menuOptions.Add(Command_Return, "Return to Previous Screen");
@@ -61,6 +60,7 @@ Annual Visitors: {park.Visitors:N0}
 
                     case Command_SearchForReservation:
                         // TODO Implement search for reservations available in a park
+
                         return false;
                     case Command_ViewCampgrounds:
                         ParkCampgroundsMenu parkCampgroundsMenu = new ParkCampgroundsMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
@@ -69,7 +69,18 @@ Annual Visitors: {park.Visitors:N0}
                     case Command_ViewNext30DaysReservations:
                         // TODO BONUS: As a user of the system, I would like the ability to see a list of all upcoming reservations withinthe next 30 days for a selected national park.
                         List<Reservation> upcomingReservations = reservationDAO.GetNext30DaysParkReservations(park);
-
+                        if (upcomingReservations.Count > 0)
+                        {
+                            Console.WriteLine("From Date   To Date     Creation Date   Name");
+                            foreach (Reservation r in upcomingReservations)
+                            {
+                                Console.WriteLine($"{r.FromDate,-12:d}{r.ToDate,-12:d}{r.CreateDate,-16:d}{r.Name}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No upcoming reservations.");
+                        }
                         Console.ReadKey();
                         return true;
                     default:

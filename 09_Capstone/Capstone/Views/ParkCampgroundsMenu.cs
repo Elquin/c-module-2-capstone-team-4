@@ -137,7 +137,6 @@ namespace Capstone.Views
 
                     if (sites.Count > 0)
                     {
-                        // TODO Method for writing the column lengths padded to maximum data width
                         Console.WriteLine("Results Matching Your Search Criteria");
                         Console.WriteLine("Site No.   Max Occup.  Accessible?  Max RV Length   Utility   Cost");
                         foreach (Site currentSite in sites)
