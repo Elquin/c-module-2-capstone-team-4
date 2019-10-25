@@ -67,19 +67,35 @@ namespace Capstone.Views
         {
             try
             {
-                Console.WriteLine("Which campground (enter 0 to cancel)?");
-                string choice = Console.ReadLine();
-                if (choice == "0")
+                string choice;
+                Campground campground = null;
+                bool campgroundSelected = false;
+                while (!campgroundSelected)
                 {
-                    Console.Clear();
-                    return;
+                    Console.WriteLine("Which campground (enter 0 to cancel)?");
+                    choice = Console.ReadLine();
+                    if (choice == "0")
+                    {
+                        Console.Clear();
+                        return;
+                    }
+
+                    if (!menuOptions.ContainsKey(choice))
+                    {
+                        Pause("Invalid campground. Please try again.");
+                        continue;
+                    }
+                    campground = campgroundDAO.GetCampgroundById(int.Parse(choice));
+                    if (campground == null)
+                    {
+                        throw new Exception("No campground found.");
+                    }
+                    else
+                    {
+                        campgroundSelected = true;
+                    }
                 }
 
-                Campground campground = campgroundDAO.GetCampgroundById(int.Parse(choice));
-                if (campground == null)
-                {
-                    throw new Exception("No campground found.");
-                }
 
                 while (true)
                 {

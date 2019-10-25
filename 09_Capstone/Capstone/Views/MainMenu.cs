@@ -37,34 +37,43 @@ namespace Capstone.Views
         {
             while (true)
             {
-                Console.Clear();
-
-                switch (choice.ToLower())
+                try
                 {
-                    case Command_Quit:
-                        //Console.WriteLine("");
-                        return false;
+                    Console.Clear();
 
-                    default:
-                        // Check whether the option entered was a park ID
-                        if (menuOptions.ContainsKey(choice))
-                        {
-                            // TODO Try catch
-                            Park park = parkDAO.GetParkById(int.Parse(choice));
-                            if (park == null)
+                    switch (choice.ToLower())
+                    {
+                        case Command_Quit:
+                            //Console.WriteLine("");
+                            return false;
+
+                        default:
+                            // Check whether the option entered was a park ID
+                            if (menuOptions.ContainsKey(choice))
                             {
-                                throw new Exception("Park not found");
+                                // TODO Try catch
+                                Park park = parkDAO.GetParkById(int.Parse(choice));
+                                if (park == null)
+                                {
+                                    throw new Exception("Park not found");
+                                }
+                                ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
+                                parkMenu.Run();
+                                return true;
                             }
-                            ParkMenu parkMenu = new ParkMenu(parkDAO, campgroundDAO, siteDAO, reservationDAO, park);
-                            parkMenu.Run();
-                            return true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("The command provided was not a valid command, please try again.");
-                        }
-                        break;
+                            else
+                            {
+                                Console.WriteLine("The command provided was not a valid command; Please try again.");
+                            }
+                            break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ReadKey();
+                }
+
             }
         }
     }

@@ -63,6 +63,7 @@ namespace Capstone.Views
                 else
                 {
                     Pause("Invalid selection.");
+                    Console.Clear();
                 }
 
             }
