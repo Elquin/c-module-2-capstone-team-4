@@ -107,7 +107,7 @@ namespace Capstone.Tests
             Assert.AreEqual(expectedCampground.ParkId, actualCampground.ParkId);
 
 
-            //ACT
+            //Assert2
             actualCampground = dao.GetCampgroundById(-1);
             Assert.IsNull(actualCampground);
         }
