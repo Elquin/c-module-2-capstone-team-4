@@ -65,99 +65,118 @@ namespace Capstone.Views
 
         private void AvailableReservationSearch()
         {
-            Console.WriteLine("Which campground (enter 0 to cancel)?");
-            string choice = Console.ReadLine();
-            if (choice == "0")
+            try
             {
-                Console.Clear();
-                return;
-            }
-
-            // TODO Try catch
-            Campground campground = campgroundDAO.GetCampgroundById(int.Parse(choice));
-
-            while (true)
-            {
-                bool validDates = false;
-                DateTime fromDate = DateTime.Now; // TODO Should this really be DateTime.Now?
-                DateTime toDate = DateTime.Now; // TODO Should this really be DateTime.Now?
-                while (!validDates)
+                Console.WriteLine("Which campground (enter 0 to cancel)?");
+                string choice = Console.ReadLine();
+                if (choice == "0")
                 {
-                    Console.WriteLine("What is the arrival date?");
-                    // TODO Try catch or TryParse
-                    fromDate = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("What is the departure date?");
-                    toDate = DateTime.Parse(Console.ReadLine());
-
-                    validDates = toDate >= fromDate;
-                    if (!validDates)
-                    {
-                        Console.WriteLine("Departure date must be after arrival date.");
-                    }
-                }
-
-                if (fromDate.Month < campground.OpenFromMonth || toDate.Month > campground.OpenToMonth)
-                {
-                    Console.WriteLine("Campground is not open during these dates.");
-                    Console.ReadKey();
                     Console.Clear();
                     return;
                 }
 
-                List<Site> sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate);
-
-                if (sites.Count > 0)
+                Campground campground = campgroundDAO.GetCampgroundById(int.Parse(choice));
+                if (campground == null)
                 {
-                    Console.WriteLine("Results Matching Your Search Criteria");
-                    Console.WriteLine("Site No.   Max Occup.  Accessible?  Max RV Length   Utility   Cost");
-                    foreach (Site currentSite in sites)
+                    throw new Exception("No campground found.");
+                }
+
+                while (true)
+                {
+                    bool validDates = false;
+                    DateTime fromDate = DateTime.Now;
+                    DateTime toDate = DateTime.Now;
+                    while (!validDates)
                     {
-                        string accessibleDisplay = currentSite.Accessible ? "Yes" : "No";
-                        string maxRvLengthDisplay = currentSite.MaxRVLength > 0 ? currentSite.MaxRVLength.ToString() : "N/A";
-                        string utilityDisplay = currentSite.Utilities ? "Yes" : "N/A";
-                        Console.WriteLine($"{currentSite.SiteNumber,-11}{currentSite.MaxOccupancy,-12}{accessibleDisplay,-13}{maxRvLengthDisplay,-16}{utilityDisplay,-10}{campground.DailyFee * ((toDate - fromDate).Days + 1):C}");
+                        Console.WriteLine("What is the arrival date?");
+                        // TODO Try catch or TryParse
+                        fromDate = DateTime.Parse(Console.ReadLine());
+                        Console.WriteLine("What is the departure date?");
+                        toDate = DateTime.Parse(Console.ReadLine());
+
+                        validDates = toDate >= fromDate;
+                        if (!validDates)
+                        {
+                            Console.WriteLine("Departure date must be after arrival date.");
+                        }
                     }
 
-                    Console.WriteLine("Which site should be reserved (enter 0 to cancel)");
-                    choice = Console.ReadLine();
-                    if (choice == "0")
+                    if (fromDate.Month < campground.OpenFromMonth || toDate.Month > campground.OpenToMonth)
                     {
+                        Console.WriteLine("Campground is not open during these dates.");
+                        Console.ReadKey();
                         Console.Clear();
                         return;
                     }
 
-                    // TODO Try catch
-                    Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, int.Parse(choice));
+                    List<Site> sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate);
 
-                    Console.WriteLine("What name should the reservation be made under?");
-                    string reservationName = Console.ReadLine();
-                    // TODO Do we check if reservationName is empty?
-
-                    int? reservationId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
-
-                    if (reservationId == null)
+                    if (sites.Count > 0)
                     {
-                        Console.WriteLine("The reservation could not be made.");
+                        Console.WriteLine("Results Matching Your Search Criteria");
+                        Console.WriteLine("Site No.   Max Occup.  Accessible?  Max RV Length   Utility   Cost");
+                        foreach (Site currentSite in sites)
+                        {
+                            string accessibleDisplay = currentSite.Accessible ? "Yes" : "No";
+                            string maxRvLengthDisplay = currentSite.MaxRVLength > 0 ? currentSite.MaxRVLength.ToString() : "N/A";
+                            string utilityDisplay = currentSite.Utilities ? "Yes" : "N/A";
+                            Console.WriteLine($"{currentSite.SiteNumber,-11}{currentSite.MaxOccupancy,-12}{accessibleDisplay,-13}{maxRvLengthDisplay,-16}{utilityDisplay,-10}{campground.DailyFee * ((toDate - fromDate).Days + 1):C}");
+                        }
+
+                        Console.WriteLine("Which site should be reserved (enter 0 to cancel)");
+                        choice = Console.ReadLine();
+                        if (choice == "0")
+                        {
+                            Console.Clear();
+                            return;
+                        }
+
+                        // TODO Try catch
+                        Site site = siteDAO.GetSiteByCampgroundSiteNumber(campground, int.Parse(choice));
+
+                        string reservationName = "";
+                        while (reservationName == "")
+                        {
+                            Console.WriteLine("What name should the reservation be made under?");
+                            reservationName = Console.ReadLine();
+                            if (reservationName == "")
+                            {
+                                Console.WriteLine("Please enter something for the reservation name.");
+                            }
+                        }
+
+                        int? reservationId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
+
+                        if (reservationId == null)
+                        {
+                            Console.WriteLine("The reservation could not be made.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"The reservation has been made and the confirmation id is {reservationId}");
+                        }
+
+                        Console.ReadKey();
+                        Console.Clear();
+                        return;
                     }
                     else
                     {
-                        Console.WriteLine($"The reservation has been made and the confirmation id is {reservationId}");
-                    }
-
-                    Console.ReadKey();
-                    Console.Clear();
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("No results match your criteria. Would you like to enter an alternate date range? (Y/N)");
-                    choice = Console.ReadLine().ToLower();
-                    if (choice != "y")
-                    {
-                        Console.Clear();
-                        return;
+                        Console.WriteLine("No results match your criteria. Would you like to enter an alternate date range? (Y/N)");
+                        choice = Console.ReadLine().ToLower();
+                        if (choice != "y")
+                        {
+                            Console.Clear();
+                            return;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }

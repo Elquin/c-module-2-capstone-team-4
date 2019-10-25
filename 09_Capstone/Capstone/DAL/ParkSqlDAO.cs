@@ -26,6 +26,10 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@parkid", id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     // TODO What if no rows are found?
+                    if (!reader.HasRows)
+                    {
+                        throw new Exception("Park not in database.");
+                    }
                     reader.Read();
                     return ObjectToPark(reader);
                 }
