@@ -82,11 +82,25 @@ namespace Capstone.Tests
                 expectedId = Convert.ToInt32(cmd.ExecuteScalar()) + 1;
             }
 
+            // Valid reservation
             // Act
             int? actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
 
             // Assert
             Assert.AreEqual(expectedId, actualId);
+
+            // Reservation dates overlap
+            // Act
+            actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
+
+            // Assert
+            Assert.IsNull(actualId);
+
+
+            // From date is after to date
+            // Arrange
+            fromDate = new DateTime(2019, 1, 20);
+            toDate = new DateTime(2019, 1, 15);
 
             // Act
             actualId = Reserve.MakeReservation(site, reservationName, fromDate, toDate, campgroundDAO, reservationDAO);
