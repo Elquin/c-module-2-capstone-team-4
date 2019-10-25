@@ -26,6 +26,8 @@ namespace Capstone
             ISiteDAO siteDao = new SiteSqlDAO(connectionString);
             IReservationDAO reservationDao = new ReservationSqlDAO(connectionString);
 
+            Console.WindowHeight = (int)(Console.LargestWindowHeight * 0.7);
+            Console.WindowWidth = (int)(Console.LargestWindowWidth * 0.8);
             CLIMenu menu = new MainMenu(parkDao, campgroundDao, siteDao, reservationDao);
             menu.Run();
         }
