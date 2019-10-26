@@ -118,39 +118,40 @@ namespace Capstone.Tests
 
         }
 
-        //[TestMethod]
-        //public void GetSitesInCampgroundTest()
-        //{
-        //    // Arrange
-        //    int campgroundId = 2;
-        //    Site expectedSite;
-        //    SiteSqlDAO dao = new SiteSqlDAO(connectionString);
+        [TestMethod]
+        public void GetSitesInCampgroundTest()
+        {
+            // Arrange
+            int campgroundId = 2;
+            List<Site> siteList = new List<Site>();
+            Site newSite;
+            SiteSqlDAO dao = new SiteSqlDAO(connectionString);
 
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE campground_id = @campgroundId", conn);
-        //        cmd.Parameters.AddWithValue("@campgroundId", campgroundId);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM site WHERE campground_id = @campgroundId", conn);
+                cmd.Parameters.AddWithValue("@campgroundId", campgroundId);
 
-        //        SqlDataReader sdr = cmd.ExecuteReader();
-        //        sdr.Read();
-        //        expectedSite = new Site(Convert.ToInt32(sdr["site_id"]), Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["site_number"]), Convert.ToInt32(sdr["max_occupancy"]), Convert.ToBoolean(sdr["accessible"]), Convert.ToInt32(sdr["max_rv_length"]), Convert.ToBoolean(sdr["utilities"]));
-        //    }
+                SqlDataReader sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    newSite = new Site(Convert.ToInt32(sdr["site_id"]), Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["site_number"]), Convert.ToInt32(sdr["max_occupancy"]), Convert.ToBoolean(sdr["accessible"]), Convert.ToInt32(sdr["max_rv_length"]), Convert.ToBoolean(sdr["utilities"]));
+                    siteList.Add(newSite);
+                }
+                
+            }
 
 
-        //    // Act
-        //    Site actualSite = dao.GetSitesInCampground(expectedSite.Id);
+            // Act
+            Campground newCampground = new Campground(2, 1, "Seawall", 5, 9, (decimal)30.00);
+            List<Site> actualSiteList = dao.GetSitesInCampground(newCampground);
 
-
-        //    // Assert 
-        //    Assert.AreEqual(expectedSite.Name, actualSite.Name);
-        //    Assert.AreEqual(expectedSite.Id, actualSite.Id);
-
-        //    //Assert2
-        //    actualSite = dao.GetSitesInCampground(-1);
-        //    Assert.IsNull(actualSite);
-
-        //}
+            // Assert 
+            Assert.AreEqual(siteList[0].Id, actualSiteList[0].Id);
+            Assert.AreEqual(siteList.Count, actualSiteList.Count);
+            Assert.AreEqual(siteList[1].CampgroundId, actualSiteList[1].CampgroundId);
+        }
 
         public Site SqlToSite(SqlDataReader reader)
         {
