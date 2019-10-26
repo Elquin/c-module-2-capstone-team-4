@@ -20,19 +20,26 @@ namespace Capstone.Views
         {
             this.park = park;
             Title = $@"                                                 
-                                                            `/+o/.
-                                                         `:+/.  .so.
-                                                    .--::/.       .os:`
-                                    :-          `.--.               `:+//+/`                        
-                                 /y/oy/.     `..                         `://`                     
-         ____            _     .___      `.__:```                        _/: _`-.--.             
-        |  _ \ __ _ _ __| | __ |_ _|_ __  / _| ___  _ __ _ __ ___   __ _| |_(_) ___``_ __  
-        | |_) / _` | '__| |/ /  | || '_ \| |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \ 
-        |  __/ (_| | |  |   <   | || | | |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | |
-        |_|   \__,_|_|  |_|\_\ |___|_| |_|_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|
-                .-:.  ```                     ./.  ``                                  `  
-           ``..-`                               .--.....``
-          ``                                              ````                                                                            
+                                     .:`./-`                                                        
+                                    -++` `/:`                -.`                                    
+                                  ./ooo.   -/.`            -+-:/.`                                  
+                                 :+oooo/.`  `/:`          :oo+`.//.`                                
+                               .+oooooooo+/`  -/.`      -+oooo.  -+/.                               
+                              :oooooooooooo. ` `::`    :oooooo/-```/+-`                             
+                          .-:+oooooooooooo+`-+-  .:.`./ooooooooo+/: .//`   1.`                                          
+             :/-..-::-.-:.:+ooooooooooooooooooo:.:+oooooooooooooooo+/++o+/++-.-:-`                  
+          .:+ooo+.  `-oo+- `-/+ooooooooooooooo+/+oooooooo+/+ooooooooooooooooo+/::/:.`               
+         :+oooooo+. -+ooo:    `:+ooooooooooooooooo+ooooooo/.-/oooooooooooooooooo+`-//-`             
+       -+ooooooooo+:ooo+-`  .`  `-/+oooooooooooooo-:ooooooo+:..:/oooooooooooooooo: `./+/-`                 
+    :+ooooooooooo/::/:`.:+ooooooo++++ooooooooooooo+` .+oooooooo++//::+ooooooooooooooooo++oo+/-`      
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm
+MMMMMMMM ____            _      ___        __                            _   _             MMMMMMMMm
+MMMMMMMM|  _ \ __ _ _ __| | __ |_ _|_ __  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __  MMMMMMMMm
+MMMMMMMM| |_) / _` | '__| |/ /  | || '_ \| |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \ MMMMMMMMm
+MMMMMMMM|  __/ (_| | |  |   <   | || | | |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | |MMMMMMMMm
+MMMMMMMM|_|   \__,_|_|  |_|\_\ |___|_| |_|_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|MMMMMMMMm 
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNNNNNNNNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm 
+
 {park.Name}
 Location: {park.Location}
 Established: {park.EstablishDate:d}
