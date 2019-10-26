@@ -12,9 +12,9 @@ namespace Capstone
         {
             try
             {
-                if (toDate < fromDate)
+                if (toDate <= fromDate)
                 {
-                    throw new Exception("End date is less than start date.");
+                    throw new Exception("End date is less than or equal to start date.");
                 }
 
                 Campground campground = campgroundDAO.GetCampgroundById(site.CampgroundId);
