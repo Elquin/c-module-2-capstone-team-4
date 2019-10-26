@@ -26,12 +26,25 @@ namespace Capstone.Views
                 campgroundTable += $"\n#{cg.Id,-4}{cg.Name,-41}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenFromMonth),-12}{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(cg.OpenToMonth),-12}{cg.DailyFee:C}";
             }
             Title = $@"
-         ____            _       ____                                                      _     
-        |  _ \ __ _ _ __| | __  / ___|__ _ _ __ ___  _ __   __ _ _ __ ___  _   _ _ __   __| |___ 
-        | |_) / _` | '__| |/ / | |   / _` | '_ ` _ \| '_ \ / _` | '__/ _ \| | | | '_ \ / _` / __|
-        |  __/ (_| | |  |   <  | |__| (_| | | | | | | |_) | (_| | | | (_) | |_| | | | | (_| \__ \
-        |_|   \__,_|_|  |_|\_\  \____\__,_|_| |_| |_| .__/ \__, |_|  \___/ \__,_|_| |_|\__,_|___/
-                                             |_|    |___/                                 
+                        ____                                                             -/:.        
+                   .hNy/`nNnhny-                         -+o/                           :MMMN`       
+                  oNMMMMNhssNMMN+`                      mMMM-                          `dMMM:       
+                :dMMMMMMMMMMMMMMMy.`                  .oNMmy`     .-/:          ``      .mMMMs      
+              -yNMMMMMMMMMMMMMMMMMd:`                -mMMMdo/:-/+oysh+          ydos/+symMMMMM:     
+             +mMMMMMMMMMMMMMMMMMMMMN+`               hMMMMmsyys+-`              .-.:+hmdy+dMMMh     
+           :hMMMMMMMMMMMMMMMMMMMMMMMMh.              mMMMNmh+.           (    ```-hydddhydMMMM-    
+         .sNMMMMMMMMMMMMMMMMMMMMMMMMMMm/             NMMMd-/shhy+.     ).         `oMMMMMMMMMM+    
+        /mMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMs.          `NMMMMmNNNMMo`   ( : ' )        :ymMMMMMMds`    
+      -hMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm+:/:/``    sMMMMMMMMs--:`./hhmsdsh/.        `+NMNmMd.  :.`
+++-::oNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMmmdms+ydho+mMMMMMMNmdmMmhdMMMMMNmy:/:./o+yhyomMmmd:..`++/
+shmNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNMNMNmMMNMMMMMMMMMNNNmhys
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm
+MMMMMM ____            _       ____                                                      _     MMMMm
+MMMMMM|  _ \ __ _ _ __| | __  / ___|__ _ _ __ ___  _ __   __ _ _ __ ___  _   _ _ __   __| |___ MMMMm
+MMMMMM| |_) / _` | '__| |/ / | |   / _` | '_ ` _ \| '_ \ / _` | '__/ _ \| | | | '_ \ / _` / __|MMMMm
+MMMMMM|  __/ (_| | |  |   <  | |__| (_| | | | | | | |_) | (_| | | | (_) | |_| | | | | (_| \__ \MMMMm
+MMMMMM|_|   \__,_|_|  |_|\_\  \____\__,_|_| |_| |_| .__/ \__, |_|  \___/ \__,_|_| |_|\__,_|___/MMMMm
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMm 
 
 
 
