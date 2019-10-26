@@ -74,7 +74,6 @@ Annual Visitors: {park.Visitors:N0}
                         parkCampgroundsMenu.Run();
                         return true;
                     case Command_ViewNext30DaysReservations:
-                        // TODO This should show the campground and site information too
                         List<Reservation> upcomingReservations = reservationDAO.GetNext30DaysParkReservations(park);
                         if (upcomingReservations.Count > 0)
                         {
