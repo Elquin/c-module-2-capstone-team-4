@@ -137,7 +137,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMM
                         fromDate = GetDate("What is the arrival date?");
                         toDate = GetDate("What is the departure date?");
 
-                        validDates = toDate >= fromDate;
+                        validDates = toDate > fromDate;
                         if (!validDates)
                         {
                             Console.WriteLine("Departure date must be after arrival date.");

@@ -9,7 +9,6 @@ namespace Capstone.DAL
     {
         List<Reservation> GetReservationsAtSite(Site site);
 
-        // TODO Is this ever used?
         Reservation GetReservationById(int id);
 
         /// <summary>

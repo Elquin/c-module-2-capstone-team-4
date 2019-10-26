@@ -11,7 +11,8 @@ namespace Capstone.DAL
 
         Site GetSiteByCampgroundSiteNumber(Campground campground, int siteNumber);
 
-        // TODO Is this ever used
+        Site GetSiteByParkSiteNumber(Park park, int siteNumber);
+
         Site GetSiteById(int id);
     }
 }

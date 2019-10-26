@@ -63,6 +63,35 @@ namespace Capstone.DAL
             }
         }
 
+        public Site GetSiteByParkSiteNumber(Park park, int siteNumber)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(@"SELECT s.* FROM site s
+                                                    JOIN campground cg ON cg.campground_id = s.campground_ID
+                                                    WHERE park_id = @parkId AND site_number = @siteNumber", 
+                                                    connection);
+                    cmd.Parameters.AddWithValue("@parkId", park.Id);
+                    cmd.Parameters.AddWithValue("@siteNumber", siteNumber);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    return SqlToSite(reader);
+                }
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
         public List<Site> GetSitesInCampground(Campground campground)
         {
             try

@@ -8,6 +8,7 @@ namespace Capstone.DAL
 {
     public class ReservationSqlDAO : IReservationDAO
     {
+        // TODO Implement unit testing for this class
 
         private string connectionString;
 
@@ -67,7 +68,7 @@ namespace Capstone.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Reservation reservation = ObjectToReservation(reader);
+                        Reservation reservation = SqlToReservation(reader);
                         reservation.SiteNumber = Convert.ToInt32(reader["site_number"]);
                         reservation.CampgroundName = Convert.ToString(reader["campground_name"]);
                         reservations.Add(reservation);
@@ -98,7 +99,7 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@reservationid", id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
-                    return ObjectToReservation(reader);
+                    return SqlToReservation(reader);
                 }
             }
             catch (SqlException)
@@ -125,7 +126,7 @@ namespace Capstone.DAL
                     reader.Read();
                     while (reader.Read())
                     {
-                        reservations.Add(ObjectToReservation(reader));
+                        reservations.Add(SqlToReservation(reader));
                     }
                     return reservations;
                 }
@@ -140,7 +141,7 @@ namespace Capstone.DAL
             }
         }
 
-        private Reservation ObjectToReservation(SqlDataReader reader)
+        private Reservation SqlToReservation(SqlDataReader reader)
         {
             return new Reservation(
                 Convert.ToInt32(reader["reservation_id"]),

@@ -15,7 +15,6 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
-        // TODO Unit testing for advanced search
         public List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate, int maxOccupancy, bool mustBeAccessible, int rvLength, bool needsUtilities)
         {
             try
@@ -109,7 +108,7 @@ namespace Capstone.DAL
                         throw new Exception("Campground not in database.");
                     }
                     reader.Read();
-                    return ObjectToCampground(reader);
+                    return SqlToCampground(reader);
                 }
             }
             catch (SqlException)
@@ -135,7 +134,7 @@ namespace Capstone.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        campgrounds.Add(ObjectToCampground(reader));
+                        campgrounds.Add(SqlToCampground(reader));
                     }
                 }
                 return campgrounds;
@@ -150,7 +149,7 @@ namespace Capstone.DAL
             }
         }
 
-        private Campground ObjectToCampground(SqlDataReader reader)
+        private Campground SqlToCampground(SqlDataReader reader)
         {
             return new Campground(
                 Convert.ToInt32(reader["campground_id"]),
