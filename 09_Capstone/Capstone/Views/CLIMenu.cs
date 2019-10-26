@@ -149,8 +149,8 @@ namespace Capstone.Views
             while (true)
             {
                 Console.Write(message + " ");
-                string userInput = Console.ReadLine().Trim();
-                if (userInput.ToUpper() == "Y")
+                string userInput = Console.ReadLine().Trim().ToUpper();
+                if (userInput == "Y")
                 {
                     resultValue = true;
                     break;

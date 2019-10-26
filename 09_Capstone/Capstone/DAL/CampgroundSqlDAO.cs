@@ -15,22 +15,45 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
-        public List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate)
+        // TODO Unit testing for advanced search
+        public List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate, int maxOccupancy, bool mustBeAccessible, int rvLength, bool needsUtilities)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand(@"SELECT TOP 5 * FROM site
-                                                    WHERE campground_id = @campgroundId
-                                                    AND site_id NOT IN (SELECT DISTINCT site_id FROM reservation
-	                                                    WHERE from_date < @toDate AND to_date > @fromDate
-	                                                    )", 
-                                                    connection);
+
+                    string sqlString = @"SELECT TOP 5 * FROM site
+                                        WHERE campground_id = @campgroundId
+                                        AND site_id NOT IN (SELECT DISTINCT site_id FROM reservation
+	                                    WHERE from_date < @toDate AND to_date > @fromDate
+	                                    )";
+                    if (maxOccupancy > 0)
+                    {
+                        sqlString += " AND max_occupancy >= @maxOccupancy";
+                    }
+                    if (mustBeAccessible)
+                    {
+                        sqlString += " AND accessible = 1";
+                    }
+                    if (rvLength > 0)
+                    {
+                        sqlString += " AND max_rv_length >= @rvLength";
+                    }
+                    if (needsUtilities)
+                    {
+                        sqlString += " AND utilities = 1";
+                    }
+                    SqlCommand cmd = new SqlCommand(sqlString, connection);
                     cmd.Parameters.AddWithValue("@campgroundId", campground.Id);
                     cmd.Parameters.AddWithValue("@fromDate", fromDate);
                     cmd.Parameters.AddWithValue("@toDate", toDate);
+                    cmd.Parameters.AddWithValue("@maxOccupancy", maxOccupancy);
+                    cmd.Parameters.AddWithValue("@rvLength", rvLength);
+
+                    
+
                     SqlDataReader reader = cmd.ExecuteReader();
                     List<Site> sites = new List<Site>();
                     while (reader.Read())
@@ -39,6 +62,27 @@ namespace Capstone.DAL
                     }
                     return sites;
                 }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                int maxOccupancy = 0;
+                bool mustBeAccessible = false;
+                int rvLength = 0;
+                bool needsUtilities = false;
+
+                return GetAvailableReservations(campground, fromDate, toDate, maxOccupancy, mustBeAccessible, rvLength, needsUtilities);
             }
             catch (SqlException)
             {

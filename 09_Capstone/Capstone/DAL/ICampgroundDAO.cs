@@ -12,5 +12,6 @@ namespace Capstone.DAL
         Campground GetCampgroundById(int id);
 
         List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate);
+        List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate, int maxOccupancy, bool mustBeAccessible, int rvLength, bool needsUtilities);
     }
 }

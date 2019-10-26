@@ -14,7 +14,8 @@ namespace Capstone.Views
         private readonly List<Campground> campgrounds;
 
         const string Command_SearchForReservation = "1";
-        const string Command_Return = "2";
+        const string Command_SearchForReservationAdvanced = "2";
+        const string Command_Return = "3";
 
         public ParkCampgroundsMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO, Park park) : base(parkDAO, campgroundDAO, siteDAO, reservationDAO)
         {
@@ -52,8 +53,8 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMM
 
      Name                                     Open        Close       Daily Fee{campgroundTable}";
 
-            // TODO Implement search with extra parameters bonus
             menuOptions.Add(Command_SearchForReservation, "Search for Reservation");
+            menuOptions.Add(Command_SearchForReservationAdvanced, "Advanced Search for Reservation");
             menuOptions.Add(Command_Return, "Return to Previous Screen");
         }
 
@@ -68,8 +69,13 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMM
                         return false;
 
                     case Command_SearchForReservation:
-                        AvailableReservationSearch();
+                        AvailableReservationSearch(false);
                         return false;
+
+                    case Command_SearchForReservationAdvanced:
+                        AvailableReservationSearch(true);
+                        return false;
+
                     default:
                         Console.WriteLine("The command provided was not a valid command, please try again.");
                         break;
@@ -77,7 +83,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMM
             }
         }
 
-        private void AvailableReservationSearch()
+        private void AvailableReservationSearch(bool isAdvancedSearch)
         {
             try
             {
@@ -146,7 +152,21 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNN|_|NNNN|___/MMMMMMMMMMMMMMMM
                         return;
                     }
 
-                    List<Site> sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate);
+                    List<Site> sites;
+                    if (isAdvancedSearch)
+                    {
+                        int maxOccupancy = GetInteger("What is the minimum occupancy of the site you need? (0 to ignore)");
+                        bool mustBeAccessible = GetBool("Does the site need to be wheelchair accessible? (Y/N)");
+                        int rvLength = GetInteger("What is the minimum length needed for the RV on the site? (0 to ignore)");
+                        bool needsUtilities = GetBool("Does the site need hookups for utilities? (Y/N)");
+
+                        sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate, maxOccupancy, mustBeAccessible, rvLength, needsUtilities);
+                    }
+                    else
+                    {
+                        sites = campgroundDAO.GetAvailableReservations(campground, fromDate, toDate);
+                    }
+
 
                     if (sites.Count > 0)
                     {
