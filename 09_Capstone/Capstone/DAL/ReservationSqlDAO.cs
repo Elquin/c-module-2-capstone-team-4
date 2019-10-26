@@ -48,7 +48,6 @@ namespace Capstone.DAL
 
         public List<Reservation> GetNext30DaysParkReservations(Park park)
         {
-            // TODO Implement unit testing for this
             try
             {
                 List<Reservation> reservations = new List<Reservation>();

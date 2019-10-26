@@ -67,7 +67,7 @@ Annual Visitors: {park.Visitors:N0}
                         parkCampgroundsMenu.Run();
                         return true;
                     case Command_ViewNext30DaysReservations:
-                        // TODO BONUS: As a user of the system, I would like the ability to see a list of all upcoming reservations withinthe next 30 days for a selected national park.
+                        // TODO This should show the campground and site information too
                         List<Reservation> upcomingReservations = reservationDAO.GetNext30DaysParkReservations(park);
                         if (upcomingReservations.Count > 0)
                         {
