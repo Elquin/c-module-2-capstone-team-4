@@ -78,10 +78,11 @@ Annual Visitors: {park.Visitors:N0}
                         List<Reservation> upcomingReservations = reservationDAO.GetNext30DaysParkReservations(park);
                         if (upcomingReservations.Count > 0)
                         {
-                            Console.WriteLine("From Date   To Date     Creation Date   Name");
+                            Console.WriteLine($"{park.Name} Upcoming Reservations");
+                            Console.WriteLine("Campground              Site #  From Date   To Date     Creation Date   Name");
                             foreach (Reservation r in upcomingReservations)
                             {
-                                Console.WriteLine($"{r.FromDate,-12:d}{r.ToDate,-12:d}{r.CreateDate,-16:d}{r.Name}");
+                                Console.WriteLine($"{r.CampgroundName,-24}{r.SiteNumber,-8}{r.FromDate,-12:d}{r.ToDate,-12:d}{r.CreateDate,-16:d}{r.Name}");
                             }
                         }
                         else

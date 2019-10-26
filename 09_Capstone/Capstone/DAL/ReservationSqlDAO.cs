@@ -54,18 +54,23 @@ namespace Capstone.DAL
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand cmd = new SqlCommand(@"SELECT r.* FROM reservation r
+                    SqlCommand cmd = new SqlCommand(@"SELECT r.*, s.site_number, cg.name AS campground_name FROM reservation r
                                                     JOIN site s ON s.site_id = r.site_id
                                                     JOIN campground cg ON cg.campground_id = s.site_id
                                                     JOIN park p ON p.park_id = cg.park_id
                                                     WHERE p.park_id = @parkId
-                                                    AND r.from_date <= @dateLimit", connection);
+                                                    AND r.from_date <= @dateLimit
+                                                    ORDER BY r.from_date, r.to_date, cg.name",
+                                                    connection);
                     cmd.Parameters.AddWithValue("@parkId", park.Id);
                     cmd.Parameters.AddWithValue("@dateLimit", DateTime.Now.AddDays(30));
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        reservations.Add(ObjectToReservation(reader));
+                        Reservation reservation = ObjectToReservation(reader);
+                        reservation.SiteNumber = Convert.ToInt32(reader["site_number"]);
+                        reservation.CampgroundName = Convert.ToString(reader["campground_name"]);
+                        reservations.Add(reservation);
                     }
                 }
                 return reservations;

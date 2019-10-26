@@ -13,6 +13,9 @@ namespace Capstone.Models
         public DateTime ToDate { get; }
         public DateTime CreateDate { get; }
 
+        public int SiteNumber { get; set; }
+        public string CampgroundName { get; set; }
+
         public Reservation(int id, int siteId, string name, DateTime fromDate, DateTime toDate, DateTime createDate)
         {
             Id = id;
