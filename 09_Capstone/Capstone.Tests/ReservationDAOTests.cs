@@ -84,7 +84,6 @@ namespace Capstone.Tests
             // Arrange
             int reservationId = 5;
             Reservation expectedReservation;
-            //Reservation expectedReservation = new Reservation(4, "Eagles Family Reservation", new DateTime(2019, 10, 28), new DateTime(2019, 11, 02), new DateTime(2019, 10, 23));
             ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -107,6 +106,83 @@ namespace Capstone.Tests
             Assert.AreEqual(expectedReservation.Id, actualReservation.Id);
         }
 
+        //[TestMethod]
+        //public void CreateReservation()
+        //{
+        //    // Arrange
+        //    int reservationSiteId = 5;
+        //    string reservationName = "Tomlin Family";
+        //    DateTime reservationFromDate = new DateTime(2019, 06, 10);
+        //    DateTime reservationToDate = new DateTime(2019, 06, 15);
+        //    DateTime reservationCreateDate = DateTime.Now;
+        //    Reservation expectedReservation;
+        //    ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
+
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand(@"INSERT INTO reservation (site_id, name, from_date, to_date, create_date)
+        //                                            VALUES(@siteid, @name, @from_date, @to_date, @create_date)
+        //                                            SELECT @@IDENTITY", conn);
+        //        cmd.Parameters.AddWithValue("@siteid", reservationSiteId);
+        //        cmd.Parameters.AddWithValue("@name", reservationName);
+        //        cmd.Parameters.AddWithValue("@from_date", reservationFromDate);
+        //        cmd.Parameters.AddWithValue("@to_date", reservationToDate);
+        //        cmd.Parameters.AddWithValue("@create_date", reservationCreateDate);
+        //        SqlDataReader sdr = cmd.ExecuteReader();
+        //        sdr.Read();
+        //        expectedReservation = new Reservation(reservationSiteId, reservationName, reservationFromDate, reservationToDate, reservationCreateDate);
+        //        //expectedReservation.Id = Convert.ToInt32(cmd.ExecuteScalar());
+        //    }
+
+
+        //    // Act
+        //    int? actualReservationId = dao.CreateReservation(expectedReservation);
+
+
+        //    // Assert 
+        //    Assert.AreEqual(expectedReservation.Id, actualReservationId);
+        //}
+
+        //[TestMethod]
+        //public void GetNext30DaysParkReservationsTest()
+        //{
+        //    // Arrange
+        //    int parkId = 3;
+        //    Park newPark = new Park(3, "Cuyahoga Valley", "Ohio", new DateTime(2000, 10, 11), 32860, 2189849, "Park 3");
+        //    DateTime dateLimit = DateTime.Now.AddDays(30);
+        //    List<Reservation> expectedReservations = new List<Reservation>();
+        //    ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
+
+        //    using (SqlConnection conn = new SqlConnection(connectionString))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand(@"SELECT r.*, s.site_number, cg.name AS campground_name FROM reservation r
+        //                                            JOIN site s ON s.site_id = r.site_id
+        //                                            JOIN campground cg ON cg.campground_id = s.site_id
+        //                                            JOIN park p ON p.park_id = cg.park_id
+        //                                            WHERE p.park_id = @parkId
+        //                                            AND r.from_date <= @dateLimit
+        //                                            ORDER BY r.from_date, r.to_date, cg.name", conn);
+        //        cmd.Parameters.AddWithValue("@parkId", parkId);
+        //        cmd.Parameters.AddWithValue("@dateLimit", dateLimit);
+        //        SqlDataReader sdr = cmd.ExecuteReader();
+        //        sdr.Read();
+        //        while (sdr.Read())
+        //        {
+        //            expectedReservations.Add(SqlToReservation(sdr));
+        //        }
+        //    }
+
+
+        //    // Act
+        //    List<Reservation> actualReservations = dao.GetNext30DaysParkReservations(newPark);
+
+
+        //    // Assert 
+        //    Assert.AreEqual(expectedReservations[0].Name, actualReservations[0].Name);
+        //}
+
         private Reservation SqlToReservation(SqlDataReader reader)
         {
             return new Reservation(
@@ -118,18 +194,5 @@ namespace Capstone.Tests
                 reader["create_date"] is DBNull ? default(DateTime) : Convert.ToDateTime(reader["create_date"])
                 );
         }
-
-        //private Site SqlToSite(SqlDataReader reader)
-        //{
-        //    return new Site(
-        //        Convert.ToInt32(reader["site_id"]),
-        //        Convert.ToInt32(reader["campground_id"]),
-        //        Convert.ToInt32(reader["site_number"]),
-        //        Convert.ToInt32(reader["max_occupancy"]),
-        //        Convert.ToBoolean(reader["accessible"]),
-        //        Convert.ToInt32(reader["max_rv_length"]),
-        //        Convert.ToBoolean(reader["utilities"])
-        //        );
-        //}
     }
 }
