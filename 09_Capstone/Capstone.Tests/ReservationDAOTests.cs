@@ -76,8 +76,35 @@ namespace Capstone.Tests
             // Assert 
             Assert.AreEqual(expectedReservations[0].Name, actualReservationList[0].Name);
             Assert.AreEqual(expectedReservations.Count, actualReservationList.Count);
+        }
+
+        [TestMethod]
+        public void GetReservationByIdTest()
+        {
+            // Arrange
+            int reservationId = 5;
+            Reservation expectedReservation;
+            //Reservation expectedReservation = new Reservation(4, "Eagles Family Reservation", new DateTime(2019, 10, 28), new DateTime(2019, 11, 02), new DateTime(2019, 10, 23));
+            ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM reservation WHERE reservation_id = @reservationid", conn);
+                cmd.Parameters.AddWithValue("@reservationid", reservationId);
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                expectedReservation = SqlToReservation(sdr);
+            }
 
 
+            // Act
+            Reservation actualReservation = dao.GetReservationById(reservationId);
+
+
+            // Assert 
+            Assert.AreEqual(expectedReservation.Name, actualReservation.Name);
+            Assert.AreEqual(expectedReservation.Id, actualReservation.Id);
         }
 
         private Reservation SqlToReservation(SqlDataReader reader)
