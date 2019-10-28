@@ -47,16 +47,14 @@ namespace Capstone.Tests
             this.transaction.Dispose();
         }
 
-        // TODO Dates should be dynamic because data is loaded with dynamic dates
-
         [TestMethod]
         public void GetAvailableReservationsTest()
         {
             // Arrange
             CampgroundSqlDAO dao = new CampgroundSqlDAO(connectionString);
             Campground newCampground;
-            DateTime fromDate = new DateTime(2019, 03, 05);
-            DateTime toDate = new DateTime(2019, 03, 11);
+            DateTime fromDate = DateTime.Now.Date.AddMonths(-7);
+            DateTime toDate = DateTime.Now.Date.AddMonths(-7).AddDays(5);
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -86,8 +84,8 @@ namespace Capstone.Tests
                 newCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
             }
 
-            fromDate = new DateTime(2019, 01, 01);
-            toDate = new DateTime(2019, 12, 31);
+            fromDate = new DateTime(DateTime.Now.Date.Year - 1, 01, 01);
+            toDate = new DateTime(DateTime.Now.Date.Year + 1, 12, 31);
 
             // Act
             sites = dao.GetAvailableReservations(newCampground, fromDate, toDate);
@@ -108,8 +106,8 @@ namespace Capstone.Tests
             Assert.AreEqual(1, sites.Count);
 
             // Arrange
-            fromDate = new DateTime(2020, 01, 01);
-            toDate = new DateTime(2020, 01, 02);
+            fromDate = new DateTime(DateTime.Now.Date.Year + 2, 01, 01);
+            toDate = new DateTime(DateTime.Now.Date.Year + 2, 01, 02);
 
             // Act
             sites = dao.GetAvailableReservations(newCampground, fromDate, toDate, 0, true, 0, true);
