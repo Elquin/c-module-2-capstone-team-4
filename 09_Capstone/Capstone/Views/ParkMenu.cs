@@ -95,6 +95,7 @@ Annual Visitors: {park.Visitors:N0}
                             Console.WriteLine("No upcoming reservations.");
                         }
                         Pause("");
+                        Console.Clear();
                         return true;
                     default:
                         Console.WriteLine("The command provided was not a valid command, please try again.");
