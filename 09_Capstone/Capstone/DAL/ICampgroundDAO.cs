@@ -11,7 +11,6 @@ namespace Capstone.DAL
 
         Campground GetCampgroundById(int id);
 
-        // TODO Unit testing for advanced search
         List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate);
         List<Site> GetAvailableReservations(Campground campground, DateTime fromDate, DateTime toDate, int maxOccupancy, bool mustBeAccessible, int rvLength, bool needsUtilities);
     }

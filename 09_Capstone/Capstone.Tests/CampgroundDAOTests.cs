@@ -50,9 +50,11 @@ namespace Capstone.Tests
         [TestMethod]
         public void GetAvailableReservationsTest()
         {
-            Campground newCampground;
             // Arrange
             CampgroundSqlDAO dao = new CampgroundSqlDAO(connectionString);
+            Campground newCampground;
+            DateTime fromDate = new DateTime(2019, 03, 05);
+            DateTime toDate = new DateTime(2019, 03, 11);
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -66,7 +68,7 @@ namespace Capstone.Tests
 
 
             // Act
-            List<Site> sites = dao.GetAvailableReservations(newCampground, new DateTime(2019, 03, 05), new DateTime(2019, 03, 11));
+            List<Site> sites = dao.GetAvailableReservations(newCampground, fromDate, toDate);
 
             // Assert 
             Assert.AreEqual(5, sites.Count); //Top 5 limiting results to 5
@@ -82,11 +84,55 @@ namespace Capstone.Tests
                 newCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
             }
 
+            fromDate = new DateTime(2019, 01, 01);
+            toDate = new DateTime(2019, 12, 31);
+
             // Act
-            sites = dao.GetAvailableReservations(newCampground, new DateTime(2019, 01, 01), new DateTime(2019, 12, 31));
+            sites = dao.GetAvailableReservations(newCampground, fromDate, toDate);
 
             // Assert
             Assert.AreEqual(3, sites.Count);
+
+            // Act
+            sites = dao.GetAvailableReservations(newCampground, fromDate, toDate, 0, true, 0, false);
+
+            // Assert
+            Assert.AreEqual(2, sites.Count);
+
+            // Act
+            sites = dao.GetAvailableReservations(newCampground, fromDate, toDate, 0, false, 21, false);
+
+            // Assert
+            Assert.AreEqual(1, sites.Count);
+
+            // Arrange
+            fromDate = new DateTime(2020, 01, 01);
+            toDate = new DateTime(2020, 01, 02);
+
+            // Act
+            sites = dao.GetAvailableReservations(newCampground, fromDate, toDate, 0, true, 0, true);
+
+            // Assert
+            Assert.AreEqual(4, sites.Count);
+
+            // Arrange
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE name = @name", conn);
+                cmd.Parameters.AddWithValue("@name", "Devil's Garden");
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                newCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
+            }
+
+            // Act
+            sites = dao.GetAvailableReservations(newCampground, fromDate, toDate, 8, true, 0, false);
+
+            // Assert
+            Assert.AreEqual(2, sites.Count);
+
         }
 
         [TestMethod]
