@@ -13,15 +13,13 @@ namespace Capstone.Tests
     [TestClass]
     public class SiteDAOTests
     {
-        // TODO Dates should be dynamic because data is loaded with dynamic dates
-
         private TransactionScope transaction;
         const string connectionString = "Server=.\\SQLExpress;Database=npcampground;Trusted_Connection=True;";
         [TestInitialize]
         public void Setup()
         {
             // Begin a transaction
-            this.transaction = new TransactionScope();
+            transaction = new TransactionScope();
             string script;
             // Load a script file to setup the db the way we want it
             using (StreamReader sr = new StreamReader(@"..\..\..\..\Capstone.Tests\CampgroundDAOTest_Setup.sql"))
@@ -39,15 +37,13 @@ namespace Capstone.Tests
                 cmd.ExecuteNonQuery();
 
             }
-
-
         }
 
         [TestCleanup]
         public void Cleanup()
         {
             // Roll back the transaction
-            this.transaction.Dispose();
+            transaction.Dispose();
         }
 
         [TestMethod]

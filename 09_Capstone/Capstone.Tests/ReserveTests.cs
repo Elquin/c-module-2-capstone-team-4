@@ -13,8 +13,6 @@ namespace Capstone.Tests
     [TestClass]
     public class ReserveTests
     {
-        // TODO Dates should be dynamic because data is loaded with dynamic dates
-
         private TransactionScope transaction;
         const string connectionString = "Server=.\\SQLExpress;Database=npcampground;Trusted_Connection=True;";
 
