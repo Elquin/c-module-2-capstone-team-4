@@ -104,45 +104,52 @@ namespace Capstone.Tests
             // Assert 
             Assert.AreEqual(expectedReservation.Name, actualReservation.Name);
             Assert.AreEqual(expectedReservation.Id, actualReservation.Id);
+            Assert.AreEqual(expectedReservation.FromDate, actualReservation.FromDate);
+            Assert.AreEqual(expectedReservation.SiteId, actualReservation.SiteId);
+            Assert.AreEqual(expectedReservation.ToDate, actualReservation.ToDate);
         }
 
-        //[TestMethod]
-        //public void CreateReservation()
-        //{
-        //    // Arrange
-        //    int reservationSiteId = 5;
-        //    string reservationName = "Tomlin Family";
-        //    DateTime reservationFromDate = new DateTime(2019, 06, 10);
-        //    DateTime reservationToDate = new DateTime(2019, 06, 15);
-        //    DateTime reservationCreateDate = DateTime.Now;
-        //    Reservation expectedReservation;
-        //    ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
+        [TestMethod]
+        public void CreateReservationTest()
+        {
+            // Arrange
+            int reservationSiteId = 5;
+            string reservationName = "Tomlin Family";
+            DateTime reservationFromDate = new DateTime(2019, 06, 10);
+            DateTime reservationToDate = new DateTime(2019, 06, 15);
+            DateTime reservationCreateDate = DateTime.Now;
+            Reservation expectedReservation;
+            expectedReservation = new Reservation(reservationSiteId, reservationName, reservationFromDate, reservationToDate, reservationCreateDate);
 
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand(@"INSERT INTO reservation (site_id, name, from_date, to_date, create_date)
-        //                                            VALUES(@siteid, @name, @from_date, @to_date, @create_date)
-        //                                            SELECT @@IDENTITY", conn);
-        //        cmd.Parameters.AddWithValue("@siteid", reservationSiteId);
-        //        cmd.Parameters.AddWithValue("@name", reservationName);
-        //        cmd.Parameters.AddWithValue("@from_date", reservationFromDate);
-        //        cmd.Parameters.AddWithValue("@to_date", reservationToDate);
-        //        cmd.Parameters.AddWithValue("@create_date", reservationCreateDate);
-        //        SqlDataReader sdr = cmd.ExecuteReader();
-        //        sdr.Read();
-        //        expectedReservation = new Reservation(reservationSiteId, reservationName, reservationFromDate, reservationToDate, reservationCreateDate);
-        //        //expectedReservation.Id = Convert.ToInt32(cmd.ExecuteScalar());
-        //    }
+            ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
 
+            // Act
+            int? actualReservationId = dao.CreateReservation(expectedReservation);
 
-        //    // Act
-        //    int? actualReservationId = dao.CreateReservation(expectedReservation);
+            Reservation actualReservation;
 
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(@"SELECT * FROM reservation WHERE reservation_id = @reservationId", conn);
+                cmd.Parameters.AddWithValue("@reservationId", actualReservationId);
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                actualReservation = new Reservation(
+                    Convert.ToInt32(sdr["site_id"]),
+                    Convert.ToString(sdr["name"]),
+                    Convert.ToDateTime(sdr["from_date"]),
+                    Convert.ToDateTime(sdr["to_date"]),
+                    Convert.ToDateTime(sdr["create_date"])
+                    );
+            }
 
-        //    // Assert 
-        //    Assert.AreEqual(expectedReservation.Id, actualReservationId);
-        //}
+            // Assert 
+            Assert.AreEqual(expectedReservation.FromDate, actualReservation.FromDate);
+            Assert.AreEqual(expectedReservation.Name, actualReservation.Name);
+            Assert.AreEqual(expectedReservation.SiteId, actualReservation.SiteId);
+            Assert.AreEqual(expectedReservation.ToDate, actualReservation.ToDate);
+        }
 
         //[TestMethod]
         //public void GetNext30DaysParkReservationsTest()
