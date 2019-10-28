@@ -13,8 +13,6 @@ namespace Capstone.Tests
     [TestClass]
     public class ParkDAOTests
     {
-        // TODO Dates should be dynamic because data is loaded with dynamic dates
-
         private TransactionScope transaction;
         const string connectionString = "Server=.\\SQLExpress;Database=npcampground;Trusted_Connection=True;";
         [TestInitialize]
@@ -122,8 +120,8 @@ namespace Capstone.Tests
             // Arrange
             ParkSqlDAO dao = new ParkSqlDAO(connectionString);
             Park park;
-            DateTime fromDate = new DateTime(2019, 03, 05);
-            DateTime toDate = new DateTime(2019, 03, 11);
+            DateTime fromDate = new DateTime(DateTime.Now.Date.Year - 1, 03, 05);
+            DateTime toDate = new DateTime(DateTime.Now.Date.Year - 1, 03, 11);
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -142,8 +140,8 @@ namespace Capstone.Tests
             Assert.AreEqual(15, sites.Count); //Top 5 limiting results to 5 at 3 separate sites
 
             // Arrange
-            fromDate = new DateTime(2019, 01, 01);
-            toDate = new DateTime(2019, 12, 31);
+            fromDate = new DateTime(DateTime.Now.Year - 1, 01, 01);
+            toDate = new DateTime(DateTime.Now.Year + 1, 12, 31);
 
             // Act
             sites = dao.GetAvailableReservations(park, fromDate, toDate, 0, true, 21, true);
