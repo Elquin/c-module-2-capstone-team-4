@@ -13,8 +13,6 @@ namespace Capstone.Tests
     [TestClass]
     public class ReservationDAOTests
     {
-        // TODO Dates should be dynamic because data is loaded with dynamic dates
-
         private TransactionScope transaction;
         const string connectionString = "Server=.\\SQLExpress;Database=npcampground;Trusted_Connection=True;";
         [TestInitialize]
@@ -117,8 +115,8 @@ namespace Capstone.Tests
             // Arrange
             int reservationSiteId = 5;
             string reservationName = "Tomlin Family";
-            DateTime reservationFromDate = new DateTime(2019, 06, 10);
-            DateTime reservationToDate = new DateTime(2019, 06, 15);
+            DateTime reservationFromDate = new DateTime(DateTime.Now.Year - 1, 06, 10);
+            DateTime reservationToDate = new DateTime(DateTime.Now.Year - 1, 06, 15);
             DateTime reservationCreateDate = DateTime.Now;
             Reservation expectedReservation;
             expectedReservation = new Reservation(reservationSiteId, reservationName, reservationFromDate, reservationToDate, reservationCreateDate);
