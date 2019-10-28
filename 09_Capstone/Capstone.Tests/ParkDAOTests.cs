@@ -115,6 +115,42 @@ namespace Capstone.Tests
 
         }
 
+        [TestMethod]
+        public void GetAvailableReservationsTest()
+        {
+            // Arrange
+            ParkSqlDAO dao = new ParkSqlDAO(connectionString);
+            Park park;
+            DateTime fromDate = new DateTime(2019, 03, 05);
+            DateTime toDate = new DateTime(2019, 03, 11);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM park WHERE name = 'Acadia'", conn);
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                park = new Park(Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToString(sdr["location"]), Convert.ToDateTime(sdr["establish_date"]), Convert.ToInt32(sdr["area"]), Convert.ToInt32(sdr["visitors"]), Convert.ToString(sdr["description"]));
+            }
+
+            // Act
+            List<Site> sites = dao.GetAvailableReservations(park, fromDate, toDate);
+
+            // Assert 
+            Assert.AreEqual(15, sites.Count); //Top 5 limiting results to 5 at 3 separate sites
+
+            // Arrange
+            fromDate = new DateTime(2019, 01, 01);
+            toDate = new DateTime(2019, 12, 31);
+
+            // Act
+            sites = dao.GetAvailableReservations(park, fromDate, toDate, 0, true, 21, true);
+
+            // Assert
+            Assert.AreEqual(2, sites.Count);
+        }
+
         private Park SqlToPark(SqlDataReader reader)
         {
             return new Park(
@@ -127,8 +163,5 @@ namespace Capstone.Tests
                 Convert.ToString(reader["description"])
                 );
         }
-
-
-
     }
 }
