@@ -135,13 +135,7 @@ namespace Capstone.Tests
                 cmd.Parameters.AddWithValue("@reservationId", actualReservationId);
                 SqlDataReader sdr = cmd.ExecuteReader();
                 sdr.Read();
-                actualReservation = new Reservation(
-                    Convert.ToInt32(sdr["site_id"]),
-                    Convert.ToString(sdr["name"]),
-                    Convert.ToDateTime(sdr["from_date"]),
-                    Convert.ToDateTime(sdr["to_date"]),
-                    Convert.ToDateTime(sdr["create_date"])
-                    );
+                actualReservation = SqlToReservation(sdr);
             }
 
             // Assert 
