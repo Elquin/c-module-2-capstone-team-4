@@ -65,7 +65,7 @@ namespace Capstone.Tests
                 SqlDataReader sdr = cmd.ExecuteReader();
                 while (sdr.Read())
                 {
-                    parks.Add(ObjectToPark(sdr));
+                    parks.Add(SqlToPark(sdr));
                 }
 
             }
@@ -115,7 +115,7 @@ namespace Capstone.Tests
 
         }
 
-        private Park ObjectToPark(SqlDataReader reader)
+        private Park SqlToPark(SqlDataReader reader)
         {
             return new Park(
                 Convert.ToInt32(reader["park_id"]),
