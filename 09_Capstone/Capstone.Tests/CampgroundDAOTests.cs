@@ -48,13 +48,11 @@ namespace Capstone.Tests
         }
 
         [TestMethod]
-        public void GetAvailableReservationTest()
+        public void GetAvailableReservationsTest()
         {
             Campground newCampground;
             // Arrange
             CampgroundSqlDAO dao = new CampgroundSqlDAO(connectionString);
-
-
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -68,10 +66,27 @@ namespace Capstone.Tests
 
 
             // Act
-            List<Site> list = dao.GetAvailableReservations(newCampground, new DateTime(2019, 03, 05), new DateTime(2019, 03, 11));
+            List<Site> sites = dao.GetAvailableReservations(newCampground, new DateTime(2019, 03, 05), new DateTime(2019, 03, 11));
 
             // Assert 
-            Assert.AreEqual(5, list.Count); //Top 5 limiting results to 5
+            Assert.AreEqual(5, sites.Count); //Top 5 limiting results to 5
+
+            // Arrange
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM campground WHERE name = 'Seawall'", conn);
+
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                newCampground = new Campground(Convert.ToInt32(sdr["campground_id"]), Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToInt32(sdr["open_from_mm"]), Convert.ToInt32(sdr["open_to_mm"]), Convert.ToDecimal(sdr["daily_fee"]));
+            }
+
+            // Act
+            sites = dao.GetAvailableReservations(newCampground, new DateTime(2019, 01, 01), new DateTime(2019, 12, 31));
+
+            // Assert
+            Assert.AreEqual(3, sites.Count);
         }
 
         [TestMethod]
