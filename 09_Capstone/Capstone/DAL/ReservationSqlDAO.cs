@@ -8,8 +8,6 @@ namespace Capstone.DAL
 {
     public class ReservationSqlDAO : IReservationDAO
     {
-        // TODO Implement unit testing for this class
-
         private string connectionString;
 
         public ReservationSqlDAO(string connectionString)
@@ -57,14 +55,16 @@ namespace Capstone.DAL
                     connection.Open();
                     SqlCommand cmd = new SqlCommand(@"SELECT r.*, s.site_number, cg.name AS campground_name FROM reservation r
                                                     JOIN site s ON s.site_id = r.site_id
-                                                    JOIN campground cg ON cg.campground_id = s.site_id
+                                                    JOIN campground cg ON cg.campground_id = s.campground_id
                                                     JOIN park p ON p.park_id = cg.park_id
                                                     WHERE p.park_id = @parkId
                                                     AND r.from_date <= @dateLimit
+                                                    AND r.from_date >= @dateNow
                                                     ORDER BY r.from_date, r.to_date, cg.name",
                                                     connection);
                     cmd.Parameters.AddWithValue("@parkId", park.Id);
-                    cmd.Parameters.AddWithValue("@dateLimit", DateTime.Now.AddDays(30));
+                    cmd.Parameters.AddWithValue("@dateLimit", DateTime.Now.Date.AddDays(30));
+                    cmd.Parameters.AddWithValue("@dateNow", DateTime.Now.Date);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {

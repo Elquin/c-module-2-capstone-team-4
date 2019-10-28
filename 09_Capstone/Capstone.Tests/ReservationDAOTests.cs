@@ -13,6 +13,8 @@ namespace Capstone.Tests
     [TestClass]
     public class ReservationDAOTests
     {
+        // TODO Dates should be dynamic because data is loaded with dynamic dates
+
         private TransactionScope transaction;
         const string connectionString = "Server=.\\SQLExpress;Database=npcampground;Trusted_Connection=True;";
         [TestInitialize]
@@ -145,44 +147,31 @@ namespace Capstone.Tests
             Assert.AreEqual(expectedReservation.ToDate, actualReservation.ToDate);
         }
 
-        //[TestMethod]
-        //public void GetNext30DaysParkReservationsTest()
-        //{
-        //    // Arrange
-        //    int parkId = 3;
-        //    Park newPark = new Park(3, "Cuyahoga Valley", "Ohio", new DateTime(2000, 10, 11), 32860, 2189849, "Park 3");
-        //    DateTime dateLimit = DateTime.Now.AddDays(30);
-        //    List<Reservation> expectedReservations = new List<Reservation>();
-        //    ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
+        [TestMethod]
+        public void GetNext30DaysParkReservationsTest()
+        {
+            // Arrange
+            ReservationSqlDAO dao = new ReservationSqlDAO(connectionString);
 
-        //    using (SqlConnection conn = new SqlConnection(connectionString))
-        //    {
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand(@"SELECT r.*, s.site_number, cg.name AS campground_name FROM reservation r
-        //                                            JOIN site s ON s.site_id = r.site_id
-        //                                            JOIN campground cg ON cg.campground_id = s.site_id
-        //                                            JOIN park p ON p.park_id = cg.park_id
-        //                                            WHERE p.park_id = @parkId
-        //                                            AND r.from_date <= @dateLimit
-        //                                            ORDER BY r.from_date, r.to_date, cg.name", conn);
-        //        cmd.Parameters.AddWithValue("@parkId", parkId);
-        //        cmd.Parameters.AddWithValue("@dateLimit", dateLimit);
-        //        SqlDataReader sdr = cmd.ExecuteReader();
-        //        sdr.Read();
-        //        while (sdr.Read())
-        //        {
-        //            expectedReservations.Add(SqlToReservation(sdr));
-        //        }
-        //    }
+            Park park;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(@"SELECT * FROM park WHERE name = 'Arches'", connection);
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                park = new Park(Convert.ToInt32(sdr["park_id"]), Convert.ToString(sdr["name"]), Convert.ToString(sdr["location"]), Convert.ToDateTime(sdr["establish_date"]), Convert.ToInt32(sdr["area"]), Convert.ToInt32(sdr["visitors"]), Convert.ToString(sdr["description"]));
+            }
+
+            // Act
+            List<Reservation> reservations = dao.GetNext30DaysParkReservations(park);
+
+            // Assert
+            Assert.AreEqual(10, reservations.Count);
 
 
-        //    // Act
-        //    List<Reservation> actualReservations = dao.GetNext30DaysParkReservations(newPark);
-
-
-        //    // Assert 
-        //    Assert.AreEqual(expectedReservations[0].Name, actualReservations[0].Name);
-        //}
+            // Arrange
+        }
 
         private Reservation SqlToReservation(SqlDataReader reader)
         {

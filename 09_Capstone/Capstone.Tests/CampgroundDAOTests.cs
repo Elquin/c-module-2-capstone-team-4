@@ -47,6 +47,8 @@ namespace Capstone.Tests
             this.transaction.Dispose();
         }
 
+        // TODO Dates should be dynamic because data is loaded with dynamic dates
+
         [TestMethod]
         public void GetAvailableReservationsTest()
         {
